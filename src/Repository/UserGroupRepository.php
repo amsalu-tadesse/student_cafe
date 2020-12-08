@@ -34,15 +34,15 @@ class UserGroupRepository extends ServiceEntityRepository
         ;
     }
 
-    public function filterUserGroup($qua, $date, $prod, $comp, $store)
+    public function filterUserGroup($name, $desc, $isActive)
     {
         return  $this->createQueryBuilder('ug')
             ->Where('ug.name LIKE :name')
             ->andWhere('ug.description LIKE :description')
             ->andWhere('ug.isActive LIKE :isActive')
-            ->setParameter('name', '%'.$qua.'%')
-            ->setParameter('description', '%'.$store.'%')
-            ->setParameter('isActive', '%'.$comp.'%')
+            ->setParameter('name', '%'.$name.'%')
+            ->setParameter('description', '%'.$desc.'%')
+            ->setParameter('isActive', '%'.$isActive.'%')
             ->orderBy('ug.id', 'ASC')
             ->getQuery()
             ->getResult()

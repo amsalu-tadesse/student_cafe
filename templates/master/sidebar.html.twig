@@ -11,13 +11,29 @@
         </ul>
     </div>
     <div class="menu_section">
-        <h3>Other</h3>
+        {# <h3>Other</h3> #}
+        <ul class="nav side-menu">
+        <li><a><i class="fa fa-windows"></i> Student information <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+           
+            <li><a href="{{ path('college_index') }}">College</a></li>
+            <li><a href="{{ path('department_index') }}">Department</a></li>
+            <li><a href="{{ path('program_index') }}">Program</a></li>
+            <li><a href="{{ path('student_index') }}">Students</a></li>
+
+            </ul>
+        </li>
+        </ul>
+    </div>
+    <div class="menu_section">
+        {# <h3>Other</h3> #}
         <ul class="nav side-menu">
         <li><a><i class="fa fa-windows"></i> User Management <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
             <li><a href="{{ path('user_index') }}">User</a></li>
             <li><a href="{{ path('user_group_index') }}">User Group</a></li>
             <li><a href="{{ path('permission_index') }}">Permission</a></li>
+
 
             </ul>
         </li>
@@ -26,3 +42,5 @@
 
     </div>
 <!-- /sidebar menu -->
+
+ 

@@ -1,21 +1,122 @@
-<h1>Student Scanning ...</h1>
+<link href="{{ asset('assets/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+<style>
+tr {
+    text-align: center;
+}
+.headerbig{
+    font-size: 80px;
+    /*background-color: #17a118; */
+}
 
-<table class="table" style="width:100%">
+
+.headermedium{
+    font-size: 30px;
+   /* background-color: #17a118; */
+	color:black;
+}
+.footer {
+    font-size: 20px;
+}
+.content1{
+      font-size: 80px;
+    background-color: #17a2b8;
+}
+/*html, body, .outer,.containter { height: 100% !important; background: pink }*/
+
+
+/* table{
+            border: 1px solid black;
+            width: 100%;
+            height: 100%;
+         }
+  */
+
+.customborder
+{
+ border: 20px solid #17a2b8;
+}
+td,th,tr{
+	border: 12px solid  #56a386;
+}
+table {
+position: absolute; 
+height:100%;
+
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+ 
+body, html{height:100%}
+div{height:100%}
+table{
+	background:red; 
+	width:450px;
+	} 
+#btn {
+	border: 3px blue solid;
+}
+
+img {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  width: 50%;
+}
+
+
+      th,
+      td {
+        padding: 10px;
+        border: 12px solid #56a386 !important;
+        border-collapse: collapse;
+      }
+
+
+</style>
+
+<body>
+<div class="container col-lg-12 col-md-12 col-xl-12 flex-fill ">
+<div class="card">
+<form action="google.com">
+<table class="table table-bordered customborder">
 	<tr>
-		<td colspan="2">header here.</td>
+		<td colspan="2" class="headermedium" >WELCOME TO AASTU </td>
 	</tr>
 	<tr>
-		<td colspan="2">header here.</td>
+		<td class="headerbig">ይግቡ</td>
+		<td rowspan="2" style="width:50%" class="headerbig">
+		
+		 <img src="{{ asset('assets/image/index.jpeg') }}" />
+		</td>
+	</tr>
+	<tr>
+		<td class="headerbig">GET IN</td>
 	</tr>
 	<tr>
 		<td colspan="2">
-			<input type="submit" value="submit">
+        <input type="text" id="barcode" name="barcode" style="width:100%;height:100%;focus:red">
+        </td>
+	</tr>
+	<tr style="padding:0px;">
+		<td colspan="2" style="padding:0px;">
+			<input type="submit" value="SCAN" style="width:100%;height:100%;" class="btn btn-warning " id="btn">
 		</td>
 	</tr>
+	{# <tr style="padding:0px;">
+		<td colspan="2" style="padding:0px;">
+			<button onclick="openFullscreen();">Fullscreen</button>
+		</td>
+	</tr> #}
 
-</td></tr></table>{# 
-	    <a href="{{ path('student_index') }}" class="btn btn-info">back to list</a>
-	
-	    <a href="{{ path('student_edit', {'id': student.id}) }}" class="btn btn-warning">edit</a>
-	
-	  #}
+</table>
+</form>
+</div>
+</div>
+<body>
+ <script src="{{ asset('assets/bootstrap/js/bootstrap.min.js')}}"></script>
+
+

@@ -24,14 +24,14 @@ class Checkin
     private $card;
 
     /**
-     * @ORM\Column(type="smallint")
-     */
-    private $status;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $checkinTime;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="checkins")
+     */
+    private $scanner;
 
     public function getId(): ?int
     {
@@ -50,17 +50,6 @@ class Checkin
         return $this;
     }
 
-    public function getStatus(): ?int
-    {
-        return $this->status;
-    }
-
-    public function setStatus(int $status): self
-    {
-        $this->status = $status;
-
-        return $this;
-    }
 
     public function getCheckinTime(): ?\DateTimeInterface
     {
@@ -70,6 +59,18 @@ class Checkin
     public function setCheckinTime(\DateTimeInterface $checkinTime): self
     {
         $this->checkinTime = $checkinTime;
+
+        return $this;
+    }
+
+    public function getScanner(): ?User
+    {
+        return $this->scanner;
+    }
+
+    public function setScanner(?User $scanner): self
+    {
+        $this->scanner = $scanner;
 
         return $this;
     }

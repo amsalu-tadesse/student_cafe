@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -39,6 +41,16 @@ class User implements UserInterface
      * @ORM\ManyToMany(targetEntity="App\Entity\UserGroup", inversedBy="users")
      */
     private $userGroup;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Checkin::class, mappedBy="scanner")
+     */
+    private $checkins;
+
+    public function __construct()
+    {
+        $this->checkins = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -138,5 +150,35 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|Checkin[]
+     */
+    public function getCheckins(): Collection
+    {
+        return $this->checkins;
+    }
+
+    public function addCheckin(Checkin $checkin): self
+    {
+        if (!$this->checkins->contains($checkin)) {
+            $this->checkins[] = $checkin;
+            $checkin->setScanner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCheckin(Checkin $checkin): self
+    {
+        if ($this->checkins->removeElement($checkin)) {
+            // set the owning side to null (unless already changed)
+            if ($checkin->getScanner() === $this) {
+                $checkin->setScanner(null);
+            }
+        }
+
+        return $this;
     }
 }

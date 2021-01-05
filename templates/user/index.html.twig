@@ -75,7 +75,7 @@
                                                 <th>Id</th>
                                                 <th>Username</th>
                                                 <th>Roles</th>
-                                                <th>Password</th>
+                                                {# <th>Password</th> #}
                                                 <th>actions</th>
                                             </tr>
                                         </thead>
@@ -85,7 +85,7 @@
                                                 <td>{{ user.id }}</td>
                                                 <td>{{ user.username }}</td>
                                                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                                                <td>{{ user.password }}</td>
+                                                {# <td>{{ user.password }}</td> #}
                                                 <td>
                                                     <form class="d-inline" method="post">
 														<input type="hidden" name="edit" value="{{user.id}}">

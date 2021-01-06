@@ -1,122 +1,228 @@
 <link href="{{ asset('assets/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
 <style>
-tr {
-    text-align: center;
-}
-.headerbig{
-    font-size: 80px;
-    /*background-color: #17a118; */
-}
+	tr {
+		text-align: center;
+	}
+	.headerbig {
+		font-size: 200px;
+		/*background-color: #17a118; */
+		text-align: center;
+	}
 
 
-.headermedium{
-    font-size: 30px;
-   /* background-color: #17a118; */
-	color:black;
-}
-.footer {
-    font-size: 20px;
-}
-.content1{
-      font-size: 80px;
-    background-color: #17a2b8;
-}
-/*html, body, .outer,.containter { height: 100% !important; background: pink }*/
+	.headermedium {
+		font-size: 30px;
+		/* background-color: #17a118; */
+		color: black;
+	}
+	.footer {
+		font-size: 20px;
+	}
+	.content1 {
+		font-size: 80px;
+		background-color: #17a2b8;
+	}
+	/*html, body, .outer,.containter { height: 100% !important; background: pink }*/
 
 
-/* table{
+	/* table{
             border: 1px solid black;
             width: 100%;
             height: 100%;
          }
   */
 
-.customborder
-{
- border: 20px solid #17a2b8;
-}
-td,th,tr{
-	border: 12px solid  #56a386;
-}
-table {
-position: absolute; 
-height:100%;
+	.customborder {
+		border: 40px solid #17a2b8;
+	}
+	td,
+	th,
+	tr {
+		border: 12px solid #56a386;
+	}
+	table {
+		position: absolute;
+		height: 100%;
 
-}
+	}
 
-html, body {
-  height: 100%;
-  margin: 0;
-}
-
- 
-body, html{height:100%}
-div{height:100%}
-table{
-	background:red; 
-	width:450px;
-	} 
-#btn {
-	border: 3px blue solid;
-}
-
-img {
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 5px;
-  width: 50%;
-}
+	html,
+	body {
+		height: 100%;
+		margin: 0;
+	}
 
 
-      th,
-      td {
-        padding: 10px;
-        border: 12px solid #56a386 !important;
-        border-collapse: collapse;
-      }
+	body,
+	html {
+		height: 100%
+	}
+	div {
+		height: 100%
+	}
+	table {
+		background: red;
+		width: 450px;
+	}
+	#btn {
+		border: 3px blue solid;
+	}
+
+	img {
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		padding: 5px;
+		width: 50%;
+	}
 
 
+	th,
+	td {
+		padding: 20px;
+		/*border: 40px solid #56a386 !important;*/
+		border: 40px solid #5bc0de !important;
+		border-collapse: collapse;
+		text-align: center;
+	}
+
+
+	input {
+		font-size: 50px;
+	}
 </style>
-
 <body>
-<div class="container col-lg-12 col-md-12 col-xl-12 flex-fill ">
-<div class="card">
-<form action="google.com">
-<table class="table table-bordered customborder">
-	<tr>
-		<td colspan="2" class="headermedium" >WELCOME TO AASTU </td>
-	</tr>
-	<tr>
-		<td class="headerbig">ይግቡ</td>
-		<td rowspan="2" style="width:50%" class="headerbig">
-		
-		 <img src="{{ asset('assets/image/index.jpeg') }}" />
-		</td>
-	</tr>
-	<tr>
-		<td class="headerbig">GET IN</td>
-	</tr>
-	<tr>
-		<td colspan="2">
-        <input type="text" id="barcode" name="barcode" style="width:100%;height:100%;focus:red">
-        </td>
-	</tr>
-	<tr style="padding:0px;">
-		<td colspan="2" style="padding:0px;">
-			<input type="submit" value="SCAN" style="width:100%;height:100%;" class="btn btn-warning " id="btn">
-		</td>
-	</tr>
-	{# <tr style="padding:0px;">
-		<td colspan="2" style="padding:0px;">
-			<button onclick="openFullscreen();">Fullscreen</button>
-		</td>
-	</tr> #}
 
-</table>
-</form>
-</div>
-</div>
-<body>
- <script src="{{ asset('assets/bootstrap/js/bootstrap.min.js')}}"></script>
+  {# <audio autoplay>
+  <source src="{{ asset('assets/sounds/deny.mp3') }}" autostart=true type="audio/mp3">
+Your browser does not support the audio element.
+</audio>   #}
+
+ {# <audio controls autoplay>
+  <source src="horse.ogg" type="audio/ogg">
+  <source src="horse.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>  #}
+{# <embed src="{{ asset('assets/sounds/deny.mp3') }}" autostart=true loop=false> #}
+{# <audio src="{{ asset('assets/sounds/deny.mp3') }}"></audio> #}
+{# <audio id="my_audio" src="{{ asset('assets/sounds/deny.mp3') }}" loop="loop"></audio> #}
 
 
+{# <audio autoplay>
+  <source src="{{ asset('assets/sounds/deny.mp3') }}" type="audio/mpeg">
+</audio> #}
+{# <iframe src="{{ asset('assets/sounds/deny.mp3') }}" allow="autoplay" id="my_audio" style="display:block"></iframe> #}
+
+{# <audio src="{{ asset('assets/sounds/deny.mp3') }}" controls="controls">
+Your browser does not support the audio element.
+</audio> #}
+{# <audio id="my_audio" src="{{ asset('assets/sounds/deny.mp3') }}" loop="loop"></audio> #}
+
+    {# <audio autoplay>
+      <source src="{{ asset('assets/sounds/deny.mp3') }}" type="audio/mpeg">
+    </audio> #}
+
+
+    <audio  style="display:block" autoplay>
+      <source src="{{ asset('assets/sounds/deny.mp3') }}" type="audio/mpeg">
+    </audio>
+{# <audio autoplay loop>
+      <source src="{{ asset('assets/sounds/deny.mp3') }}">
+</audio> #}
+
+
+
+	<div class="container col-lg-12 col-md-12 col-xl-12 flex-fill ">
+		<div class="card">
+			<form action="{{ path('scanning') }}" method="POST" onsubmit="function beep(1, 250, 3000)">
+				<table class="table table-bordered customborder">
+					<tr>
+						<td colspan="2" class="headermedium">WELCOME TO AASTU
+						</td>
+					</tr>
+					<tr>
+
+						{% if allowed %}
+							<td class="headerbig" style="background-color:green; color:white">
+								ይግቡ
+							</td>
+						{% else %}
+							<td class="headerbig" style="background-color:red; color:white">
+								ከልክል
+							</td>
+						{% endif %}
+
+
+						<td rowspan="2" style="width:50%" class="headerbig">
+							<img src="{{ asset('assets/image/index.jpeg') }}"/>
+						</td>
+					</tr>
+					<tr>
+						{% if allowed %}
+							<td class="headerbig" style="background-color:green; color:white">
+								GET IN
+							</td>
+						{% else %}
+							<td class="headerbig" style="background-color:red; color:white">
+								DENY
+							</td>
+						{% endif %}
+					</tr>
+					<tr>
+						<td colspan="2">
+							<input type="text" id="barcode" name="barcode" style="width:100%;height:100%;">
+						</td>
+					</tr>
+					{% if not allowed %}
+						<tr style="padding:0px;">
+							<td
+								colspan="2" style="padding:2px;text-align:center; background-color:pink;">
+								{# <input type="submit" value="SCAN" style="width:100%;height:100%;" class="btn btn-warning " id="btn"> #}
+
+								<p style="color:red; font-size:40px;background-color:pink;">{{reason}}</p>
+							</td>
+						</tr>
+					{% endif %}
+
+				</table>
+			</form>
+		</div>
+	</div>
+
+
+
+
+	<script src="{{ asset('assets/bootstrap/js/bootstrap.min.js')}}"></script>
+
+	
+{# <audio src="{{ asset('assets/sounds/deny.mp3') }}" autoplay loop></audio> #}
+<embed src="{{ asset('assets/sounds/deny.mp3') }}" loop="true" autostart="true" width="2" height="0">
+
+<script>
+var context = new AudioContext();
+//defaults to A440Hz, sine wave
+var src = context.createOscillator();
+// Now let's create a modulator to turn beeps on and off
+var mod = context.createOscillator();
+mod.type="square";
+mod.frequency.value = "740";  // Start at 2Hz
+
+var gain = context.createGain();
+var scaler = context.createGain();
+
+src.connect(gain);
+gain.connect(context.destination);
+
+mod.connect(scaler); // Mod signal is [-1,1]
+scaler.gain.value = 0.5; // we need it to be [-0.5,0.5]
+gain.gain.value = 0.5; // then it's summed with 0.5, so [0,1]
+scaler.connect(gain.gain);
+
+//start it up
+src.start(0);
+mod.start(0);
+src.stop(0.5); 
+mod.stop(0.5); 
+
+</script>
+ 
+</body>

@@ -16,12 +16,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class ScanningController extends AbstractController
 {
     /**
-     * @Route("/", name="scanning_index", methods={"GET","POST"})
+     * @Route("/", name="scanning", methods={"GET","POST"})
      */
-    public function index(CollegeRepository $collegeRepository): Response
+    public function index(Request $request): Response
     {
+        $barcode = $request->request->get("barcode");
+        $reason = "ያገለገለ ካርድ";
+        //check barcode and set allowed to true or false;
+
         return $this->render('student/scanning.html.twig', [
-            'colleges' => $collegeRepository->findAll(),
+           'allowed'=>$barcode,
+           'reason'=> $reason
         ]);
     }
 

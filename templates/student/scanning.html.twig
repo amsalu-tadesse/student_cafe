@@ -3,8 +3,15 @@
 	tr {
 		text-align: center;
 	}
+	
 	.headerbig {
-		font-size: 200px;
+		font-size: 100px;
+		/*background-color: #17a118; */
+		text-align: center;
+	}
+
+	.defaultpage {
+		font-size: 40px;
 		/*background-color: #17a118; */
 		text-align: center;
 	}
@@ -89,7 +96,41 @@
 	input {
 		font-size: 50px;
 	}
+
+.fill {
+    /*display: flex;
+    justify-content: center;*/
+    /*align-items: center;*/
+    overflow: hidden
+}
+.fill img {
+    flex-shrink: 0;
+    min-width: 100%;
+    min-height: 100%
+}
+	
 </style>
+
+
+
+<head>
+
+
+    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+
+    <script src="{{ asset('assets/js/webcam.min.js') }}"></script>
+
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" />
+
+    <style type="text/css">
+
+        #results { padding:20px; border:1px solid; background:#ccc; }
+        {# #my_camera { padding:20px; border:1px solid; background:#ccc; } #}
+
+    </style>
+
+</head>
+
 <body>
 
 	<div class="container col-lg-12 col-md-12 col-xl-12 flex-fill ">
@@ -101,37 +142,77 @@
 					</tr>
 					<tr>
 
-						{% if allowed %}
+						{% if allowed == 1%}
 							<td class="headerbig" style="background-color:green; color:white">
 								ይግቡ
 							</td>
-						{% else %}
+						{% elseif allowed == 2 %}
 							<td class="headerbig" style="background-color:red; color:white">
 								ከልክል
 							</td>
+						{% else %}
+					 <td class="defaultpage" style="background-color:gray; color:white">
+								እባክዎ መግቢያ ካርድዎትን ያሳዩ
+							</td>
 						{% endif %}
 
-						<td rowspan="2" style="width:50%" class="headerbig">
-							<img src="{{ asset('assets/image/index.jpeg') }}"/>
+						<td rowspan="2" style="width:50%;" class="fill">
+
+							{# <img src="{{ asset('assets/image/index.jpeg') }}"/> #}
+
+
+
+
+							 
+
+
+             
+			 
+
+                <div id="my_camera"  style="width:100%;display:none;" > </div>
+                {# <input type=button value="shot" onClick="take_snapshot()"> #}
+
+                <input type="hidden" name="image" class="image-tag" style="width:100%;">
+
+                    {# <video autoplay="autoplay" style="width: 490px; height: 390px;"></video> #}
+
+            
+
+                <div id="results"></div>
+
+            
+
+
+
+        
+
+
+
 						</td>
 					</tr>
 					<tr>
-						{% if allowed %}
+						{% if allowed == 1 %}
 							<td class="headerbig" style="background-color:green; color:white">
 								GET IN
 							</td>
-						{% else %}
+						{% elseif allowed == 2  %}
 							<td class="headerbig" style="background-color:red; color:white">
 								DENY
 							</td>
+						{% else %}
+						
+							<td class="defaultpage" style="background-color:gray; color:white">
+								PLEASE SHOW YOUR ENTRY CARD
+							</td>
+			
 						{% endif %}
 					</tr>
 					<tr>
 						<td colspan="2">
-							<input type="text" id="barcode" name="barcode" style="width:100%;height:100%;" autofocus>
+							<input type="text" id="barcode" name="barcode" style="width:100%;height:100%;font-size: 60px;" autofocus onkeydown="isKeyPressed(event)">
 						</td>
 					</tr>
-					{% if not allowed %}
+					{% if allowed == 2 %}
 						<tr style="padding:0px;">
 							<td
 								colspan="2" style="padding:2px;text-align:center; background-color:pink;">
@@ -146,16 +227,26 @@
 			</form>
 		</div>
 	</div>
-
-
-	<script src="{{ asset('assets/bootstrap/js/bootstrap.min.js')}}"></script>
-
-
-	{# <audio src="{{ asset('assets/sounds/deny.mp3') }}" autoplay loop></audio> #}
+{% if allowed ==1 %}
+<embed src="{{ asset('assets/sounds/allow.mp3') }}" loop="true" autostart="true" width="2" height="0">
+{% elseif allowed == 2 %}
 	<embed src="{{ asset('assets/sounds/deny.mp3') }}" loop="true" autostart="true" width="2" height="0">
+{% else %}
+{# nothing  #}
+{% endif %}
+
+<script src="{{ asset('assets/bootstrap/js/bootstrap.min.js')}}"></script>
+
+
+ 
+
+
+		{# <audio src="{{ asset('assets/sounds/deny.mp3') }}" autoplay ></audio> #}
+
+	{# <embed src="{{ asset('assets/sounds/deny.mp3') }}" loop="true" autostart="true" width="2" height="0"> #}
 
 	<script>
-		var context = new AudioContext();
+		/*var context = new AudioContext();
 var allowed = "{{ allowed }}";
 // defaults to A440Hz, sine wave
 var src = context.createOscillator();
@@ -186,7 +277,56 @@ gain.gain.value = 7; // then it's summed with 0.5, so [0,1]
 src.start(0);
 mod.start(0);
 src.stop(0.5);
-mod.stop(0.5);
-	</script>
+mod.stop(0.5);*/
+</script>
+
+
+
+
+<!-- Configure a few settings and attach camera -->
+
+<script language="JavaScript">
+
+Webcam.set({
+
+        width: 490,
+
+        height: 390,
+
+        image_format: 'jpeg',
+
+        jpeg_quality: 90
+
+    });
+
+  
+
+    Webcam.attach( '#my_camera' );
+
+  
+
+    function take_snapshot() {
+
+        Webcam.snap( function(data_uri) {
+
+            $(".image-tag").val(data_uri);
+
+            document.getElementById('results').innerHTML = '<img src="'+data_uri+'" />';
+
+        } );
+
+    }
+
+</script>
+
+<script>
+function isKeyPressed(event) {
+  //var x = document.getElementById("demo");
+  if (event.altKey) {
+	  take_snapshot();
+
+  }
+}
+</script>
 
 </body>

@@ -18,41 +18,18 @@ class CameraController extends AbstractController
 
 
         $img = $request->request->get("image");
-    //  $_POST['image'];
-
         $folderPath = "/var/www/gradution/public/uploads/";
-    
-      
-    
         $image_parts = explode("base64,", $img);
-
-        // dd(  $img );
-    
         // $image_type_aux = explode("image/", $image_parts[0]);
-    
         // $image_type = $image_type_aux[1];
-    
       if(sizeof($image_parts) > 1)
       {
         $image_base64 = base64_decode($image_parts[1]);
         $fileName = uniqid() . '.png';
-    
-      
-    
         $file = $folderPath . $fileName;
-    
         file_put_contents($file, $image_base64);
         print_r($fileName);
       }
-    
-        
-    
-        
-    
-      
-    
-       
-
         // die;
 
         return $this->render('camera/index.html.twig', [

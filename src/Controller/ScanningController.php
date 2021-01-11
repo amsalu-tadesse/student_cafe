@@ -21,11 +21,14 @@ class ScanningController extends AbstractController
     public function index(Request $request): Response
     {
         $barcode = $request->request->get("barcode");
-        $reason = "ያገለገለ ካርድ";
+        $reason1 = "ያገለገለ ካርድ Used Card";
+        $reason2 = "የመይታውቅ ካርድ Invalid Card";
+        $reason = $reason2;
+        $allowed = $barcode%2==0?1:0;
         //check barcode and set allowed to true or false;
 
         return $this->render('student/scanning.html.twig', [
-           'allowed'=>$barcode,
+           'allowed'=>$allowed,
            'reason'=> $reason
         ]);
     }

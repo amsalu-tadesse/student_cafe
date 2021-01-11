@@ -1,4 +1,7 @@
 {
+    "codeitnowin/barcode": {
+        "version": "3.0.3"
+    },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.1"
     },
@@ -104,6 +107,9 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "1.4.0"
+    },
+    "picqer/php-barcode-generator": {
+        "version": "v2.1.0"
     },
     "psr/cache": {
         "version": "1.0.1"

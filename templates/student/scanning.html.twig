@@ -92,52 +92,12 @@
 </style>
 <body>
 
-  {# <audio autoplay>
-  <source src="{{ asset('assets/sounds/deny.mp3') }}" autostart=true type="audio/mp3">
-Your browser does not support the audio element.
-</audio>   #}
-
- {# <audio controls autoplay>
-  <source src="horse.ogg" type="audio/ogg">
-  <source src="horse.mp3" type="audio/mpeg">
-  Your browser does not support the audio element.
-</audio>  #}
-{# <embed src="{{ asset('assets/sounds/deny.mp3') }}" autostart=true loop=false> #}
-{# <audio src="{{ asset('assets/sounds/deny.mp3') }}"></audio> #}
-{# <audio id="my_audio" src="{{ asset('assets/sounds/deny.mp3') }}" loop="loop"></audio> #}
-
-
-{# <audio autoplay>
-  <source src="{{ asset('assets/sounds/deny.mp3') }}" type="audio/mpeg">
-</audio> #}
-{# <iframe src="{{ asset('assets/sounds/deny.mp3') }}" allow="autoplay" id="my_audio" style="display:block"></iframe> #}
-
-{# <audio src="{{ asset('assets/sounds/deny.mp3') }}" controls="controls">
-Your browser does not support the audio element.
-</audio> #}
-{# <audio id="my_audio" src="{{ asset('assets/sounds/deny.mp3') }}" loop="loop"></audio> #}
-
-    {# <audio autoplay>
-      <source src="{{ asset('assets/sounds/deny.mp3') }}" type="audio/mpeg">
-    </audio> #}
-
-
-    <audio  style="display:block" autoplay>
-      <source src="{{ asset('assets/sounds/deny.mp3') }}" type="audio/mpeg">
-    </audio>
-{# <audio autoplay loop>
-      <source src="{{ asset('assets/sounds/deny.mp3') }}">
-</audio> #}
-
-
-
 	<div class="container col-lg-12 col-md-12 col-xl-12 flex-fill ">
 		<div class="card">
 			<form action="{{ path('scanning') }}" method="POST" onsubmit="function beep(1, 250, 3000)">
 				<table class="table table-bordered customborder">
 					<tr>
-						<td colspan="2" class="headermedium">WELCOME TO AASTU
-						</td>
+						<td colspan="2" class="headermedium">WELCOME TO AASTU</td>
 					</tr>
 					<tr>
 
@@ -150,7 +110,6 @@ Your browser does not support the audio element.
 								ከልክል
 							</td>
 						{% endif %}
-
 
 						<td rowspan="2" style="width:50%" class="headerbig">
 							<img src="{{ asset('assets/image/index.jpeg') }}"/>
@@ -169,7 +128,7 @@ Your browser does not support the audio element.
 					</tr>
 					<tr>
 						<td colspan="2">
-							<input type="text" id="barcode" name="barcode" style="width:100%;height:100%;">
+							<input type="text" id="barcode" name="barcode" style="width:100%;height:100%;" autofocus>
 						</td>
 					</tr>
 					{% if not allowed %}
@@ -189,22 +148,24 @@ Your browser does not support the audio element.
 	</div>
 
 
-
-
 	<script src="{{ asset('assets/bootstrap/js/bootstrap.min.js')}}"></script>
 
-	
-{# <audio src="{{ asset('assets/sounds/deny.mp3') }}" autoplay loop></audio> #}
-<embed src="{{ asset('assets/sounds/deny.mp3') }}" loop="true" autostart="true" width="2" height="0">
 
-<script>
-var context = new AudioContext();
-//defaults to A440Hz, sine wave
+	{# <audio src="{{ asset('assets/sounds/deny.mp3') }}" autoplay loop></audio> #}
+	<embed src="{{ asset('assets/sounds/deny.mp3') }}" loop="true" autostart="true" width="2" height="0">
+
+	<script>
+		var context = new AudioContext();
+var allowed = "{{ allowed }}";
+// defaults to A440Hz, sine wave
 var src = context.createOscillator();
 // Now let's create a modulator to turn beeps on and off
 var mod = context.createOscillator();
-mod.type="square";
-mod.frequency.value = "740";  // Start at 2Hz
+mod.type = "square";
+mod.frequency.value = "740";
+// Start at 2Hz
+// mod.frequency.value = "10000";  // Start at 2Hz #}
+// mod.frequency.value = "1200";  // Start at 2Hz
 
 var gain = context.createGain();
 var scaler = context.createGain();
@@ -213,16 +174,19 @@ src.connect(gain);
 gain.connect(context.destination);
 
 mod.connect(scaler); // Mod signal is [-1,1]
-scaler.gain.value = 0.5; // we need it to be [-0.5,0.5]
-gain.gain.value = 0.5; // then it's summed with 0.5, so [0,1]
-scaler.connect(gain.gain);
+if (allowed == 1) {
+scaler.gain.value = 0.4; // we need it to be [-0.5,0.5]
+gain.gain.value = 0.4; // then it's summed with 0.5, so [0,1]
+} else {
+scaler.gain.value = 7; // we need it to be [-0.5,0.5]
+gain.gain.value = 7; // then it's summed with 0.5, so [0,1]
+} scaler.connect(gain.gain);
 
-//start it up
+// start it up
 src.start(0);
 mod.start(0);
-src.stop(0.5); 
-mod.stop(0.5); 
+src.stop(0.5);
+mod.stop(0.5);
+	</script>
 
-</script>
- 
 </body>

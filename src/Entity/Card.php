@@ -39,9 +39,15 @@ class Card
      */
     private $deletedCheckins;
 
+    /**
+     * @ORM\OneToMany(targetEntity=IllegalChekinAttempt::class, mappedBy="card")
+     */
+    private $illegalChekinAttempts;
+
     public function __construct()
     {
         $this->deletedCheckins = new ArrayCollection();
+        $this->illegalChekinAttempts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -109,6 +115,36 @@ class Card
             // set the owning side to null (unless already changed)
             if ($deletedCheckin->getCard() === $this) {
                 $deletedCheckin->setCard(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|IllegalChekinAttempt[]
+     */
+    public function getIllegalChekinAttempts(): Collection
+    {
+        return $this->illegalChekinAttempts;
+    }
+
+    public function addIllegalChekinAttempt(IllegalChekinAttempt $illegalChekinAttempt): self
+    {
+        if (!$this->illegalChekinAttempts->contains($illegalChekinAttempt)) {
+            $this->illegalChekinAttempts[] = $illegalChekinAttempt;
+            $illegalChekinAttempt->setCard($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIllegalChekinAttempt(IllegalChekinAttempt $illegalChekinAttempt): self
+    {
+        if ($this->illegalChekinAttempts->removeElement($illegalChekinAttempt)) {
+            // set the owning side to null (unless already changed)
+            if ($illegalChekinAttempt->getCard() === $this) {
+                $illegalChekinAttempt->setCard(null);
             }
         }
 

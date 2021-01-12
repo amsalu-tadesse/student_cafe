@@ -4,7 +4,12 @@
 		text-align: center;
 	}
 	
-	.headerbig {
+	.headerbigE {
+		font-size: 100px;
+		/*background-color: #17a118; */
+		text-align: center;
+	}
+	.headerbigA {
 		font-size: 100px;
 		/*background-color: #17a118; */
 		text-align: center;
@@ -12,15 +17,19 @@
 
 	.defaultpage {
 		font-size: 40px;
-		/*background-color: #17a118; */
 		text-align: center;
 	}
+
+
 
 
 	.headermedium {
 		font-size: 30px;
 		/* background-color: #17a118; */
 		color: black;
+		font-weight: bold;
+		text-align: center;
+        vertical-align: middle;
 	}
 	.footer {
 		font-size: 20px;
@@ -93,6 +102,7 @@
 	}
 
 
+
 	input {
 		font-size: 50px;
 	}
@@ -109,6 +119,10 @@
     min-height: 100%
 }
 	
+
+	body{
+		overflow: hidden;
+	}
 </style>
 
 
@@ -124,7 +138,13 @@
 
     <style type="text/css">
 
-        #results { padding:20px; border:1px solid; background:#ccc; }
+        #results 
+		{ 
+			padding:20px; 
+			border:1px solid; 
+			background:#ccc; 
+			/*align: center;*/
+		}
         {# #my_camera { padding:20px; border:1px solid; background:#ccc; } #}
 
     </style>
@@ -138,20 +158,20 @@
 			<form action="{{ path('scanning') }}" method="POST" onsubmit="function beep(1, 250, 3000)">
 				<table class="table table-bordered customborder">
 					<tr>
-						<td colspan="2" class="headermedium">WELCOME TO AASTU</td>
+						<td colspan="2" class="headermedium" style="text-align: center; vertical-align: middle;">Welcome to Addis Ababa Science and Technology University</td>
 					</tr>
 					<tr>
 
 						{% if allowed == 1%}
-							<td class="headerbig" style="background-color:green; color:white">
+							<td class="headerbigA" style="background-color:green; color:white;text-align: center; vertical-align: middle;">
 								ይግቡ
 							</td>
 						{% elseif allowed == 2 %}
-							<td class="headerbig" style="background-color:red; color:white">
+							<td class="headerbigA" style="background-color:red; color:white;text-align: center; vertical-align: middle;">
 								ከልክል
 							</td>
 						{% else %}
-					 <td class="defaultpage" style="background-color:gray; color:white">
+					 <td class="defaultpage" style="background-color:gray; color:white;text-align: center; vertical-align: middle;">
 								እባክዎ መግቢያ ካርድዎትን ያሳዩ
 							</td>
 						{% endif %}
@@ -159,15 +179,20 @@
 						<td rowspan="2" style="width:50%;" class="fill">
 							
 
-{% if allowed==0 %}
- <img src="{{ asset('assets/image/index.jpeg') }}" height="10%"/> 
-{% else %}
+{# {% if allowed==0 %} #}
+ {# <img src="{{ asset('assets/image/index.jpeg') }}"/>  #}
+{# {% else %} #}
                    <div id="my_camera" style="display:none"></div>
 	
                 {# <input type=button value="shot" onClick="take_snapshot()"> #}
                 <input type="hidden" name="image" class="image-tag" style="width:100%;">
-                <div id="results"></div>
-{% endif %}
+                {# <div id="results"> <img src="{{ asset('assets/image/index.jpeg') }}" height="100"  /> </div> #}
+				{# {% set file = "{{asset('uploads/"~fileName~"')}}" %} #}
+				 
+		
+			
+                <div id="results"> <img src="{{ asset('uploads/'~fileName~'') }}"  height="100"  /> </div>
+{# {% endif %} #}
             
 
 
@@ -180,33 +205,33 @@
 					</tr>
 					<tr>
 						{% if allowed == 1 %}
-							<td class="headerbig" style="background-color:green; color:white">
+							<td class="headerbigE" style="background-color:green; color:white;text-align: center; vertical-align: middle;">
 								GET IN
 							</td>
 						{% elseif allowed == 2  %}
-							<td class="headerbig" style="background-color:red; color:white">
+							<td class="headerbigE" style="background-color:red; color:white;text-align: center; vertical-align: middle;">
 								DENY
 							</td>
 						{% else %}
 						
-							<td class="defaultpage" style="background-color:gray; color:white">
-								PLEASE SHOW YOUR ENTRY CARD
+							<td class="defaultpage" style="background-color:gray; color:white;text-align: center; vertical-align: middle;">
+								<span class="english">PLEASE SHOW YOUR ENTRY CARD </span>
 							</td>
 			
 						{% endif %}
 					</tr>
 					<tr>
-						<td colspan="2">
-							<input type="text" id="barcode" name="barcode" style="width:100%;height:100%;font-size: 60px;" autofocus onkeydown="isKeyPressed(event)">
+						<td colspan="2" >
+							<input type="text" id="barcode" name="barcode" style="width:100%;height:20%;font-size: 20px;" autofocus onkeydown="isKeyPressed(event)">
 						</td>
 					</tr>
 					{% if allowed == 2 %}
-						<tr style="padding:0px;">
+						<tr style="padding:0px;width:50%">
 							<td
-								colspan="2" style="padding:2px;text-align:center; background-color:pink;">
+								colspan="2" style="padding:2px;text-align:center; background-color:pink;vertical-align: middle">
 								{# <input type="submit" value="SCAN" style="width:100%;height:100%;" class="btn btn-warning " id="btn"> #}
 
-								<p style="color:red; font-size:40px;background-color:pink;">{{reason}}</p>
+								<p style="color:red; font-size:20px;background-color:pink;">{{reason}}</p>
 							</td>
 						</tr>
 					{% endif %}
@@ -289,13 +314,9 @@ Webcam.set({
     });
 
   var allowed = "{{ allowed }}";
-  if(allowed==0)
-  {
-
-  }
-  else{
+ 
 Webcam.attach( '#my_camera' );
-  }
+  
 
  
 	
@@ -318,12 +339,28 @@ Webcam.attach( '#my_camera' );
     }
 
 </script>
-
+: center; : middle;
 <script>
 function isKeyPressed(event) {
   //var x = document.getElementById("demo");
   if (event.altKey) {
 	  take_snapshot();
+
+	  $(".headerbigA")
+	  .css("background-color","gray")
+	  .css("color","white")
+	  .css("font-size","70px")
+	  .css("text-align","center")
+	  .css("vertical-align","middle")
+	  .html("እባክዎ መግቢያ ካርድዎትን ያሳዩ");
+
+	  $(".headerbigE")
+	  .css("background-color","gray")
+	  .css("color","white")
+	  .css("font-size","70px")
+	  .css("text-align","center")
+	  .css("vertical-align","middle")
+	  .html("PLEASE SHOW YOUR ENTRY CARD");
 
   }
 }

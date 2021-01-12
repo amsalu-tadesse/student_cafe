@@ -47,9 +47,15 @@ class User implements UserInterface
      */
     private $checkins;
 
+    /**
+     * @ORM\OneToMany(targetEntity=IllegalChekinAttempt::class, mappedBy="scanner")
+     */
+    private $illegalChekinAttempts;
+
     public function __construct()
     {
         $this->checkins = new ArrayCollection();
+        $this->illegalChekinAttempts = new ArrayCollection();
     }
 
 
@@ -176,6 +182,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($checkin->getScanner() === $this) {
                 $checkin->setScanner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|IllegalChekinAttempt[]
+     */
+    public function getIllegalChekinAttempts(): Collection
+    {
+        return $this->illegalChekinAttempts;
+    }
+
+    public function addIllegalChekinAttempt(IllegalChekinAttempt $illegalChekinAttempt): self
+    {
+        if (!$this->illegalChekinAttempts->contains($illegalChekinAttempt)) {
+            $this->illegalChekinAttempts[] = $illegalChekinAttempt;
+            $illegalChekinAttempt->setScanner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIllegalChekinAttempt(IllegalChekinAttempt $illegalChekinAttempt): self
+    {
+        if ($this->illegalChekinAttempts->removeElement($illegalChekinAttempt)) {
+            // set the owning side to null (unless already changed)
+            if ($illegalChekinAttempt->getScanner() === $this) {
+                $illegalChekinAttempt->setScanner(null);
             }
         }
 

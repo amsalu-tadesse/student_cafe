@@ -22,10 +22,7 @@ class DeletedCheckin
      */
     private $card;
 
-    /**
-     * @ORM\Column(type="smallint")
-     */
-    private $status;
+ 
 
     /**
      * @ORM\Column(type="datetime")
@@ -49,17 +46,6 @@ class DeletedCheckin
         return $this;
     }
 
-    public function getStatus(): ?int
-    {
-        return $this->status;
-    }
-
-    public function setStatus(int $status): self
-    {
-        $this->status = $status;
-
-        return $this;
-    }
 
     public function getCheckinTime(): ?\DateTimeInterface
     {

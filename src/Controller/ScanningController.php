@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * @Route("/scanning")
@@ -23,10 +23,10 @@ class ScanningController extends AbstractController
     /**
      * @Route("/", name="scanning", methods={"GET","POST"})
      */
-    public function index(Request $request): Response
+    public function index(Request $request, KernelInterface $kernel): Response
     {
         $barcode = $request->request->get("barcode");
-
+ 
 
         $reason = null;
         $allowed = 0; //default nothing.
@@ -59,7 +59,7 @@ class ScanningController extends AbstractController
             $allowed = 0; //default.
             $savePhoto = false;
         } else {
-            $staffCard = $em->getRepository(StaffCard::class)->findOneBy(['barcode' => $barcode]);
+            //$staffCard = $em->getRepository(StaffCard::class)->findOneBy(['barcode' => $barcode]);
             $reason = "የማይታውቅ ካርድ | Invalid Card";
             $allowed = 2; //deny
         }
@@ -81,7 +81,7 @@ class ScanningController extends AbstractController
         $img = $request->request->get("image");
         if($savePhoto && $img)
         {
-            $folderPath = "/var/www/graduation/public/uploads/";
+            $folderPath = $kernel->getProjectDir()."/public/uploads/";
             $image_parts = explode("base64,", $img);
             // $image_type_aux = explode("image/", $image_parts[0]);
             // $image_type = $image_type_aux[1];

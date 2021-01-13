@@ -59,7 +59,7 @@ class ScanningController extends AbstractController
             $allowed = 0; //default.
             $savePhoto = false;
         } else {
-            $staffCard = $em->getRepository(StaffCard::class)->findOneBy(['barcode' => $barcode]);
+            //$staffCard = $em->getRepository(StaffCard::class)->findOneBy(['barcode' => $barcode]);
             $reason = "የማይታውቅ ካርድ | Invalid Card";
             $allowed = 2; //deny
         }
@@ -81,7 +81,7 @@ class ScanningController extends AbstractController
         $img = $request->request->get("image");
         if($savePhoto && $img)
         {
-            $folderPath = "/var/www/graduation/public/uploads/";
+            $folderPath = "/var/www/gradution/public/uploads/";
             $image_parts = explode("base64,", $img);
             // $image_type_aux = explode("image/", $image_parts[0]);
             // $image_type = $image_type_aux[1];

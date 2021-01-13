@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Checkin;
 use App\Entity\Card;
 use App\Entity\IllegalChekinAttempt;
+use App\Entity\StaffCard;
 use App\Form\CollegeType;
 use App\Repository\CollegeRepository;
 use DateTime;
@@ -29,16 +30,16 @@ class ScanningController extends AbstractController
 
         $reason = null;
         $allowed = 0; //default nothing.
+        $previousImage = null;
         $fileName = uniqid() . '.png';
         $savePhoto = true;
-        // $allowed = $barcode % 2 == 0 ? 1 : 0;
-
         $em = $this->getDoctrine()->getManager();
         $card = $em->getRepository(Card::class)->findOneBy(['barcode' => $barcode]);
 
         if ($card) {
             $checkin = $em->getRepository(Checkin::class)->findOneBy(['card' => $card]);
             if ($checkin) {
+                $previousImage = $checkin->getPhoto();
                 $reason = "ያገለገለ ካርድ | Used Card";
                 $allowed = 2; //deny
             } else {
@@ -58,6 +59,7 @@ class ScanningController extends AbstractController
             $allowed = 0; //default.
             $savePhoto = false;
         } else {
+            $staffCard = $em->getRepository(StaffCard::class)->findOneBy(['barcode' => $barcode]);
             $reason = "የማይታውቅ ካርድ | Invalid Card";
             $allowed = 2; //deny
         }
@@ -79,7 +81,7 @@ class ScanningController extends AbstractController
         $img = $request->request->get("image");
         if($savePhoto && $img)
         {
-            $folderPath = "/var/www/gradution/public/uploads/";
+            $folderPath = "/var/www/graduation/public/uploads/";
             $image_parts = explode("base64,", $img);
             // $image_type_aux = explode("image/", $image_parts[0]);
             // $image_type = $image_type_aux[1];
@@ -98,7 +100,8 @@ class ScanningController extends AbstractController
         return $this->render('student/scanning.html.twig', [
             'allowed' => $allowed,
             'reason' => $reason,
-            'fileName' => $fileName
+            'fileName' => $fileName,
+            'previousImage'=>$previousImage
         ]);
     }
 }

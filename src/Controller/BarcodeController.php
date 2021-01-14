@@ -20,6 +20,16 @@ use setasign\Fpdi\Fpdi;
 
 class BarcodeController extends AbstractController
 {
+
+     /**
+     * @Route("/batchbarcode", name="batchbarcode")
+     */
+    public function GenerateBatch()
+    {
+        $arr=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36];
+        $this->generateCards($arr);
+
+    }
     /**
      * @Route("/down/{id}", name="down")
      */
@@ -45,7 +55,7 @@ class BarcodeController extends AbstractController
         $barcode->setType(BarcodeGenerator::Code128);
         $barcode->setScale(2);
         $barcode->setThickness(15);
-        $barcode->setFontSize(0);
+        $barcode->setFontSize(11);
         $code = $barcode->generate();
 
         // file_put_contents('/var/www/gradution/public/uploads/barcode.png', $code);
@@ -61,13 +71,18 @@ class BarcodeController extends AbstractController
         // $lastBarcode = $student->getFirstName().'<img src="data:image/png;base64,'.$code.'" />';
         // $lastBarcode = $student->getFirstName().'<img src="data:image/png;base64,'.$code.'" />';
 
-        $path = '/var/www/gradution/public/logos/barcode.png';
-        $type = pathinfo($path, PATHINFO_EXTENSION);
-        $data = file_get_contents($path);
-        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
         
+       /* $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);*/
+        // $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
 
+        $input = 'data:image/png;base64,'.$code;
+        $output = '/var/www/gradution/public/uploads/barcodes/barcode_'.$student->getId().'.png';
+        file_put_contents($output, file_get_contents($input));
+        // return new Response("donwloaded");
+        // die;
 
+        $barcode_file = '/var/www/gradution/public/uploads/barcodes/barcode_'.$student->getId().'.png';
 
 
 
@@ -106,109 +121,99 @@ $pdf->setFont('Helvetica');
 // $pdf->Text(10, 10, 'HEADING');
 
 $imsize = 33.8;
-$moveX = 0;
-$moveY = 0;
-$lengthX = 40;
-$lengthY = 40;
 
-// $fpdf = new FpdfBarcode();
-// $pdf->AddPage();
-// Code 128 horizontal
-// $x, $y, $code, $width, $height, $vertical
-// $pdf->code128(15, 15, 'HORIZONTAL CODE', 85, 10, false);
-
-// Code 128 vertical
-// $x, $y, $code, $width, $height, $vertical
-// $pdf->code128(150, 15, 'VERTICAL CODE', 85, 10, true);
-
-// QR
-// $code, $x, $y, $size
-// $pdf->QR('QR CODE', 15, 50, 20);
-
-// $pdf->Output();
-
-
-// die;
-
-
-
-for ($i = 10; $i > 0; $i--) {
+// for ($i = 10; $i > 0; $i--) {
     $pdf->AddPage();
     $pdf->useTemplate($templateId);
   
         $pdf -> SetY(17); 
         $pdf -> SetX(15); 
-        $pdf->Cell(50, 10, $pdf->Image($path , $pdf->GetX()+ 0, $pdf->GetY()+0, $imsize), 0, 0, 'L', false );
+        $pdf->Cell(100, 100, $pdf->Image($barcode_file , $pdf->GetX(), $pdf->GetY(), $imsize), 0, 0, 'L', false );
         // $pdf->Cell(15,15,'This is line number '.$i,1,1);
         $pdf -> SetY(17); 
         $pdf -> SetX(110); 
         // $pdf->Cell(15,15,'This is line number '.$i,1,1);
-        $pdf->Cell(50, 10, $pdf->Image($path, $pdf->GetX()+ 0, $pdf->GetY()+0, $imsize), 0, 0, 'L', false );
+        $pdf->Cell(50, 10, $pdf->Image($barcode_file, $pdf->GetX(), $pdf->GetY(), $imsize), 0, 0, 'L', false );
         $pdf -> SetY(150); 
         $pdf -> SetX(15); 
         // $pdf->Cell(15,15,'This is line number '.$i,1,1);
-        $pdf->Cell(50, 10, $pdf->Image($path, $pdf->GetX()+ 0, $pdf->GetY()+0, $imsize), 0, 0, 'L', false );
+        $pdf->Cell(50, 10, $pdf->Image($barcode_file, $pdf->GetX(), $pdf->GetY(), $imsize), 0, 0, 'L', false );
         $pdf -> SetY(150); 
         $pdf -> SetX(110); 
         // $pdf->Cell(15,15,'This is line number '.$i,1,1);
-        $pdf->Cell(50, 10, $pdf->Image($path, $pdf->GetX()+ 0, $pdf->GetY()+0, $imsize), 0, 0, 'L', false );
+        $pdf->Cell(50, 10, $pdf->Image($barcode_file, $pdf->GetX(), $pdf->GetY(), $imsize), 0, 0, 'L', false );
 
-
-  
-    // $pdf->MultiCell($lengthX, $lengthY, $pdf->Image($path, $pdf->GetX()+ $moveX, $pdf->GetY()+$moveY, $imsize), 0, 0, 'L', true );
-    // $pdf->Cell($lengthX, $lengthY, $pdf->Image($path, $pdf->GetX()+ 600, $pdf->GetY()+600, $imsize), 0, 0, 'L', true );
-
-}
-// $pdf->endTemplate();
-
-
-$pdf->Output();  
-
-die;
-
-
-
-
-         // Configure Dompdf according to your needs
-         $pdfOptions = new Options();
-         $pdfOptions->set('defaultFont', 'Arial');
-         $pdfOptions->set('isHtml5ParserEnabled', true);
-         
-         // Instantiate Dompdf with our options
-         $dompdf = new Dompdf($pdfOptions);
-         
-         // Retrieve the HTML generated in our twig file
-         $html = $this->renderView('barcode/index.html.twig', [
-             'code' => $code ,
-             'student'=> $student,
-             'image'=> $base64
-         ]);
-        //  return $html;
-         
-         // Load HTML to Dompdf
-         $dompdf->loadHtml($html);
-         
-         // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
-         $dompdf->setPaper('A4', 'portrait');
+// }
  
-         // Render the HTML as PDF
-         $dompdf->render();
- 
-         // Output the generated PDF to Browser (force download)
-         $dompdf->stream($student->getFirstName()."_barcode.pdf", [
-             "Attachment" => true
-         ]);
 
 
-/*
+            // $pdf->Output("/var/www/gradution/public/uploads/cards/",'card_'.$student->getId().".pdf",true);  
+            $pdf->Output();  
 
-die;
 
-        return $this->render('barcode/index.html.twig', [
-            'controller_name' => 'BarcodeController',
-        ]);*/
     }
 
+
+
+    public function generateCards($studentsList)
+    {
+        $pdf = new Fpdi();
+        foreach($studentsList as $key=>$value)
+        {
+            $myuid = $this->generate_random_letters(6);
+            $barcode = new BarcodeGenerator();
+            $barcode->setText($myuid );
+            $barcode->setType(BarcodeGenerator::Code128);
+            $barcode->setScale(2);
+            $barcode->setThickness(15);
+            $barcode->setFontSize(11);
+            $code = $barcode->generate();
+            $input = 'data:image/png;base64,'.$code;
+            $output = '/var/www/gradution/public/uploads/barcodes/barcode_'.$value.'.png';
+            file_put_contents($output, file_get_contents($input));
+            $barcode_file = '/var/www/gradution/public/uploads/barcodes/barcode_'.$value.'.png';
+          
+            $pdf->setSourceFile("/var/www/gradution/public/logos/template.pdf");
+            $templateId = $pdf->importPage(1);
+            $pdf->setFont('Helvetica');
+            $imsize = 33.8;
+  
+
+            if($key%4==0)
+            {
+                $pdf->AddPage();
+                $pdf->useTemplate($templateId);
+
+                $pdf -> SetY(17); 
+                $pdf -> SetX(15); 
+                // $pdf->Cell(15,15,'This is line number '.$i,1,1);
+                $pdf->Cell(100, 100, $pdf->Image($barcode_file , $pdf->GetX(), $pdf->GetY(), $imsize), 0, 0, 'L', false );
+            }
+            elseif(($key-1)%4==0)
+            {
+                $pdf -> SetY(17); 
+                $pdf -> SetX(110); 
+                // $pdf->Cell(15,15,'This is line number '.$i,1,1);
+                $pdf->Cell(50, 10, $pdf->Image($barcode_file, $pdf->GetX(), $pdf->GetY(), $imsize), 0, 0, 'L', false );
+            }
+            elseif(($key-2)%4==0)
+            {
+                $pdf -> SetY(150); 
+                $pdf -> SetX(15); 
+                // $pdf->Cell(15,15,'This is line number '.$i,1,1);
+                $pdf->Cell(50, 10, $pdf->Image($barcode_file, $pdf->GetX(), $pdf->GetY(), $imsize), 0, 0, 'L', false );
+            }
+            else
+            {
+                $pdf -> SetY(150); 
+                $pdf -> SetX(110); 
+                // $pdf->Cell(15,15,'This is line number '.$i,1,1);
+                $pdf->Cell(50, 10, $pdf->Image($barcode_file, $pdf->GetX(), $pdf->GetY(), $imsize), 0, 0, 'L', false );
+            }
+            
+        }
+        $pdf->Output(); 
+    }
     function generate_random_letters($length) {
         $random = '';
         for ($i = 0; $i < $length; $i++) {

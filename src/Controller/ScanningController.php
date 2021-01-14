@@ -6,6 +6,7 @@ use App\Entity\Checkin;
 use App\Entity\Card;
 use App\Entity\IllegalChekinAttempt;
 use App\Entity\StaffCard;
+use App\Entity\StaffCheckin;
 use App\Form\CollegeType;
 use App\Repository\CollegeRepository;
 use DateTime;
@@ -26,7 +27,7 @@ class ScanningController extends AbstractController
     public function index(Request $request, KernelInterface $kernel): Response
     {
         $barcode = $request->request->get("barcode");
- 
+
 
         $reason = null;
         $allowed = 0; //default nothing.
@@ -51,17 +52,35 @@ class ScanningController extends AbstractController
                 $checkin->setScanner($this->getUser());
                 $checkin->setPhoto($fileName);
                 $em->persist($checkin);
-                
-              
             }
         } elseif ($barcode == "") {
 
             $allowed = 0; //default.
             $savePhoto = false;
         } else {
-            //$staffCard = $em->getRepository(StaffCard::class)->findOneBy(['barcode' => $barcode]);
-            $reason = "የማይታውቅ ካርድ | Invalid Card";
-            $allowed = 2; //deny
+
+            $staffCard = $em->getRepository(StaffCard::class)->findOneBy(['barcode' => $barcode]);
+            if ($staffCard) {
+                $staffcheckin = $em->getRepository(StaffCheckin::class)->findOneBy(['staffCard' => $staffCard]);
+                if ($staffcheckin) {
+                    $previousImage = $staffcheckin->getPhoto();
+                    $reason = "ያገለገለ ካርድ | Used Card";
+                    $allowed = 2; //deny
+                } else {
+
+                    //allow staff entry
+                    $allowed = 1;
+                    $staffChecking =  new StaffCheckin();
+                    $staffChecking->setStaffCard($staffCard);
+                    $staffChecking->setCheckinTime(new DateTime());
+                    $staffChecking->setScanner($this->getUser());
+                    $staffChecking->setPhoto($fileName);
+                    $em->persist($staffChecking);
+                }
+            } else {
+                $reason = "የማይታውቅ ካርድ | Invalid Card";
+                $allowed = 2; //deny
+            }
         }
 
         if ($allowed == 2) {
@@ -73,15 +92,14 @@ class ScanningController extends AbstractController
             $illegalLoginAttempt->setBarcode($barcode);
             if ($card) {
                 $illegalLoginAttempt->setCard($card);
-            } 
+            }
             $em->persist($illegalLoginAttempt);
         }
         $em->flush();
 
         $img = $request->request->get("image");
-        if($savePhoto && $img)
-        {
-            $folderPath = $kernel->getProjectDir()."/public/uploads/";
+        if ($savePhoto && $img) {
+            $folderPath = $kernel->getProjectDir() . "/public/uploads/";
             $image_parts = explode("base64,", $img);
             // $image_type_aux = explode("image/", $image_parts[0]);
             // $image_type = $image_type_aux[1];
@@ -91,8 +109,8 @@ class ScanningController extends AbstractController
                 file_put_contents($file, $image_base64);
             }
         }
-        
-        
+
+
 
 
         //check barcode and set allowed to true or false;
@@ -101,7 +119,7 @@ class ScanningController extends AbstractController
             'allowed' => $allowed,
             'reason' => $reason,
             'fileName' => $fileName,
-            'previousImage'=>$previousImage
+            'previousImage' => $previousImage
         ]);
     }
 }

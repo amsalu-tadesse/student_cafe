@@ -192,8 +192,12 @@
 			
 				 
 		
-			
-                <div id="results"> <img src="{{ asset('uploads/'~fileName~'') }}"  height="100"  /> </div>
+				{% if allowed == 0 %}
+                   <div id="results" style="height:100%"> <img src="{{ asset('logos/logo.png') }}" height="90" width="90"/> </div>
+				{% else %}
+				 <div id="results"> <img src="{{ asset('uploads/'~fileName~'') }}"  height="100"  /> </div>	
+				{% endif %}
+               
 {# {% endif %} #}
             
 

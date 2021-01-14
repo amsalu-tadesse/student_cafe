@@ -31,6 +31,7 @@
                 <td>
                     <a href="{{ path('student_show', {'id': student.id}) }}" class="btn btn-info">show</a>
                     <a href="{{ path('student_edit', {'id': student.id}) }}" class="btn btn-warning">edit</a>
+                    <a href="{{ path('barcode', {'id': student.id}) }}"  class="btn btn-primary">Barcode</a>
                 </td>
             </tr>
         {% else %}

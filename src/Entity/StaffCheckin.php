@@ -28,6 +28,16 @@ class StaffCheckin
      */
     private $checkinTime;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="staffCheckins")
+     */
+    private $scanner;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $photo;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -53,6 +63,30 @@ class StaffCheckin
     public function setCheckinTime(\DateTimeInterface $checkinTime): self
     {
         $this->checkinTime = $checkinTime;
+
+        return $this;
+    }
+
+    public function getScanner(): ?User
+    {
+        return $this->scanner;
+    }
+
+    public function setScanner(?User $scanner): self
+    {
+        $this->scanner = $scanner;
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
 
         return $this;
     }

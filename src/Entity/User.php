@@ -57,11 +57,17 @@ class User implements UserInterface
      */
     private $staffCheckins;
 
+    /**
+     * @ORM\OneToMany(targetEntity=DeletedCheckin::class, mappedBy="scanner")
+     */
+    private $deletedCheckins;
+
     public function __construct()
     {
         $this->checkins = new ArrayCollection();
         $this->illegalChekinAttempts = new ArrayCollection();
         $this->staffCheckins = new ArrayCollection();
+        $this->deletedCheckins = new ArrayCollection();
     }
 
 
@@ -248,6 +254,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($staffCheckin->getScanner() === $this) {
                 $staffCheckin->setScanner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DeletedCheckin[]
+     */
+    public function getDeletedCheckins(): Collection
+    {
+        return $this->deletedCheckins;
+    }
+
+    public function addDeletedCheckin(DeletedCheckin $deletedCheckin): self
+    {
+        if (!$this->deletedCheckins->contains($deletedCheckin)) {
+            $this->deletedCheckins[] = $deletedCheckin;
+            $deletedCheckin->setScanner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeletedCheckin(DeletedCheckin $deletedCheckin): self
+    {
+        if ($this->deletedCheckins->removeElement($deletedCheckin)) {
+            // set the owning side to null (unless already changed)
+            if ($deletedCheckin->getScanner() === $this) {
+                $deletedCheckin->setScanner(null);
             }
         }
 

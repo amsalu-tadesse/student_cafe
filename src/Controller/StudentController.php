@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @Route("/student")
@@ -18,10 +19,16 @@ class StudentController extends AbstractController
     /**
      * @Route("/", name="student_index", methods={"GET"})
      */
-    public function index(StudentRepository $studentRepository): Response
+    public function index(Request $request, StudentRepository $studentRepository,PaginatorInterface $paginator): Response
     {
+
+        $data=$paginator->paginate(
+            $studentRepository->findAll(),
+            $request->query->getInt('page',1),
+            5
+         );
         return $this->render('student/index.html.twig', [
-            'students' => $studentRepository->findAll(),
+            'students' => $data,
         ]);
     }
 

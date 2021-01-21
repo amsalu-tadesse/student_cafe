@@ -1,0 +1,26 @@
+{% extends 'master/base.html.twig' %}
+
+{% block title %}Enrollment{% endblock %}
+
+{% block body %}
+    <h1>Enrollment</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ enrollment.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ enrollment.name }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('enrollment_index') }}">back to list</a>
+
+    <a href="{{ path('enrollment_edit', {'id': enrollment.id}) }}">edit</a>
+
+    {{ include('enrollment/_delete_form.html.twig') }}
+{% endblock %}

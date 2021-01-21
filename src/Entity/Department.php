@@ -35,9 +35,15 @@ class Department
      */
     private $programs;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Student::class, mappedBy="department")
+     */
+    private $students;
+
     public function __construct()
     {
         $this->programs = new ArrayCollection();
+        $this->students = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -101,5 +107,35 @@ class Department
     public function __toString()
     {
         return $this->name;
+    }
+
+    /**
+     * @return Collection|Student[]
+     */
+    public function getStudents(): Collection
+    {
+        return $this->students;
+    }
+
+    public function addStudent(Student $student): self
+    {
+        if (!$this->students->contains($student)) {
+            $this->students[] = $student;
+            $student->setDepartment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudent(Student $student): self
+    {
+        if ($this->students->removeElement($student)) {
+            // set the owning side to null (unless already changed)
+            if ($student->getDepartment() === $this) {
+                $student->setDepartment(null);
+            }
+        }
+
+        return $this;
     }
 }

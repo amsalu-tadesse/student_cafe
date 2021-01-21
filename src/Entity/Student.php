@@ -49,16 +49,37 @@ class Student
      */
     private $academicYear;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Program::class, inversedBy="students")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $program;
+   
 
     /**
      * @ORM\OneToMany(targetEntity=Card::class, mappedBy="student")
      */
     private $cards;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Department::class, inversedBy="students")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $department;
+
+    
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $idNumber;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Enrollment::class, inversedBy="students")
+     */
+    private $enrollment;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=ProgramLevel::class, inversedBy="students")
+     */
+    private $programLevel;
+
+
 
     public function __construct()
     {
@@ -142,17 +163,7 @@ class Student
         return $this;
     }
 
-    public function getProgram(): ?Program
-    {
-        return $this->program;
-    }
-
-    public function setProgram(?Program $program): self
-    {
-        $this->program = $program;
-
-        return $this;
-    }
+ 
 
     /**
      * @return Collection|Card[]
@@ -183,4 +194,56 @@ class Student
 
         return $this;
     }
+
+    public function getDepartment(): ?Department
+    {
+        return $this->department;
+    }
+
+    public function setDepartment(?Department $department): self
+    {
+        $this->department = $department;
+
+        return $this;
+    }
+
+
+
+    public function getIdNumber(): ?string
+    {
+        return $this->idNumber;
+    }
+
+    public function setIdNumber(string $idNumber): self
+    {
+        $this->idNumber = $idNumber;
+
+        return $this;
+    }
+
+    public function getEnrollment(): ?Enrollment
+    {
+        return $this->enrollment;
+    }
+
+    public function setEnrollment(?Enrollment $enrollment): self
+    {
+        $this->enrollment = $enrollment;
+
+        return $this;
+    }
+
+    public function getProgramLevel(): ?ProgramLevel
+    {
+        return $this->programLevel;
+    }
+
+    public function setProgramLevel(?ProgramLevel $programLevel): self
+    {
+        $this->programLevel = $programLevel;
+
+        return $this;
+    }
+
+
 }

@@ -19,32 +19,38 @@ class StudentRepository extends ServiceEntityRepository
         parent::__construct($registry, Student::class);
     }
 
-    // /**
-    //  * @return Student[] Returns an array of Student objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findByFilters($f)
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $res= null; 
+        //    dd($f);
+        $res = $this->createQueryBuilder('s');
+        // $res = $res->join('s.profile','p');
+     if($f)
+     {
+        if($f['Enrollment']!="")
+        {
+            
+            $res = $res->andWhere('s.enrollment = :ptype')
+            ->setParameter('ptype', $f['Enrollment']);
+            
+        }
+        if($f['Department']!="")
+        {
+            $res = $res->andWhere('s.department = :dept')
+            ->setParameter('dept', $f['Department']);
+        }
+        if($f['ProgramLevel']!="")
+        {
+            $res = $res->andWhere('s.programLevel = :plevel')
+            ->setParameter('plevel', $f['ProgramLevel']);
+        }
 
-    /*
-    public function findOneBySomeField($value): ?Student
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+     }
+        
+     $res = $res
+     ->orderBy('s.id','desc')
+     ->getQuery()
+ ;
+ return $res;     
     }
-    */
 }

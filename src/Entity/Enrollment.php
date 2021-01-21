@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\ProgramRepository;
+use App\Repository\EnrollmentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ProgramRepository::class)
+ * @ORM\Entity(repositoryClass=EnrollmentRepository::class)
  */
-class Program
+class Enrollment
 {
     /**
      * @ORM\Id
@@ -25,16 +25,9 @@ class Program
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\OneToMany(targetEntity=Student::class, mappedBy="enrollment")
      */
-    private $description;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Department::class, inversedBy="programs")
-     */
-    private $department;
-
-  
+    private $students;
 
     public function __construct()
     {
@@ -58,30 +51,35 @@ class Program
         return $this;
     }
 
-    public function getDescription(): ?string
+    /**
+     * @return Collection|Student[]
+     */
+    public function getStudents(): Collection
     {
-        return $this->description;
+        return $this->students;
     }
 
-    public function setDescription(?string $description): self
+    public function addStudent(Student $student): self
     {
-        $this->description = $description;
+        if (!$this->students->contains($student)) {
+            $this->students[] = $student;
+            $student->setEnrollment($this);
+        }
 
         return $this;
     }
 
-    public function getDepartment(): ?Department
+    public function removeStudent(Student $student): self
     {
-        return $this->department;
-    }
-
-    public function setDepartment(?Department $department): self
-    {
-        $this->department = $department;
+        if ($this->students->removeElement($student)) {
+            // set the owning side to null (unless already changed)
+            if ($student->getEnrollment() === $this) {
+                $student->setEnrollment(null);
+            }
+        }
 
         return $this;
     }
-
 
     public function __toString()
     {

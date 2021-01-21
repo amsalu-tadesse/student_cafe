@@ -2,30 +2,24 @@
 
 namespace App\Form;
 
-use App\Entity\Student;
+use App\Entity\Enrollment;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class StudentType extends AbstractType
+class EnrollmentType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstName')
-            ->add('middleName')
-            ->add('lastName')
-            ->add('sex')
-            ->add('year')
-            ->add('academicYear')
-            // ->add('program')
+            ->add('name')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Student::class,
+            'data_class' => Enrollment::class,
         ]);
     }
 }

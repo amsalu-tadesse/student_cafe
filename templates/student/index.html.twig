@@ -9,7 +9,7 @@
 
 
 
-{{ form_start(filterform, { 'attr': { 'role':'form', 'id':'filterform'} }) }}
+{# {{ form_start(filterform, { 'attr': { 'role':'form', 'id':'filterform'} }) }}
 
 
 <div class="row mr-5 ml-3">
@@ -47,17 +47,6 @@
          {% endif %}
 	</div>
 </div>
- 
-
-{# <div class="col-4 form-group">
-	<b>&nbsp;</b>
-	<div class="input-group">
-		<div class="input-group-prepend">
-
-		</div>
-		{{ form_widget(filterform.Reset,{'attr':{'class':'form-control btn btn-info'}}) }}
-	</div>
-</div> #}
 
 
 <div class="col-3 form-group">
@@ -89,93 +78,8 @@
 
 </div>
 
-
-{{ form_end(filterform) }}
-
-
-
-
-
-
-
-
-
-
-
-
-
-{# 
-
-
-
-
-
-
-
-
-
-
-{{ form_start(filterform, { 'attr': { 'role':'form', 'id':'filterform'} }) }}
-
-
-<div class="container container-fluid col-12">
-<div class="row col-12">
-
-<div class=" col-3 form-group">
-	<b>Enrollment</b>
-	<div class="input-group">
-		<div class="input-group-prepend">
-
-		</div>
-
-
-         {% if filterdata.enrollment is defined %}
-  {{ form_widget(filterform.enrollment,{value : filterdata.enrollment,'attr':{'class':'form-control select2bs4'}}) }}
-        {% else %}
-        {{ form_widget(filterform.Enrollment,{'attr':{'class':'form-control select2bs4'}}) }}
-         {% endif %}
-
-
-	</div>
-</div>
-
-
-<div class="col-3 form-group">
-	<b>Department</b>
-	<div class="input-group">
-		<div class="input-group-prepend">
-
-		</div>
-
-          {% if filterdata.department is defined %}
-        {{ form_widget(filterform.Department,{value : filterdata.Department, 'attr':{'class':'form-control select2bs4'}}) }}
-        {% else %}
-        {{ form_widget(filterform.Department,{'attr':{'class':'form-control select2bs4'}}) }}
-         {% endif %}
-	</div>
-</div>
- 
-
-<div class="col-3 form-group">
-	<b>ProgramLevel</b>
-	<div class="input-group">
-		<div class="input-group-prepend">
-
-		</div>
-		   {% if filterdata.programLevel is defined %}
-             {{ form_widget(filterform.ProgramLevel,{value : filterdata.ProgramLevel, 'attr':{'class':'form-control '}}) }}
-        {% else %}
-            {{ form_widget(filterform.ProgramLevel,{'attr':{'class':'form-control '}}) }}
-         {% endif %}
-	</div>
-</div>
-
-
-</div>
-</div>
-
-
 {{ form_end(filterform) }} #}
+
 
 
     <table class="table">
@@ -204,7 +108,7 @@
                 <td>
                     <a href="{{ path('student_show', {'id': student.id}) }}" class="btn btn-info">show</a>
                     <a href="{{ path('student_edit', {'id': student.id}) }}" class="btn btn-warning">edit</a>
-                    <a href="{{ path('barcode', {'id': student.id}) }}"  class="btn btn-primary">Barcode</a>
+                    {# <a href="{{ path('barcode', {'id': student.id}) }}"  class="btn btn-primary">Barcode</a> #}
                 </td>
             </tr>
         {% else %}

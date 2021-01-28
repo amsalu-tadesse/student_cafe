@@ -53,48 +53,19 @@ class StudentController extends AbstractController
             'class' => Enrollment::class,
             'placeholder' => "",
             'required'=>false,
-            // 'choice_value' => 'Program Type',
-            // 'placeholder1' => '2013',
-           /* 'query_builder' => function (EntityRepository $er) {
-                $res = $er->createQueryBuilder('sg')
-                    ->groupBy('sg.year');
-                return $res;
-            },*/
-  
-        ])
+                   ])
         ->add('Department',EntityType::class, [
             'class' => Department::class,
             'required'=>false,
             'placeholder' => "",
-            // 'choice_value' => 'Department',
-            // 'placeholder1' => '2013',
-           /* 'query_builder' => function (EntityRepository $er) {
-                $res = $er->createQueryBuilder('sg')
-                    ->groupBy('sg.year');
-                return $res;
-            },*/
-  
+             
         ])
-        /*->add('Department',EntityType::class, [
-            'class' => Department::class,
-            'choice_value' => 'Department',
-            'placeholder' => "",
-            // 'data' => 'NURSERY ',
-            'required'=>false,
         
-  
-        ])*/
         ->add('ProgramLevel',EntityType::class, [
             'class' => ProgramLevel::class,
             'required'=>false,
             'placeholder' => "",
-            // 'choice_value' => 'Program Level',
-            /*'query_builder' => function (EntityRepository $er) {
-                $res = $er->createQueryBuilder('s')
-                    ->andWhere('s.active=1');
-                return $res;
-            },*/
-  
+            
         ])
    
         ->add('Search',SubmitType::class)

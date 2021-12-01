@@ -70,46 +70,17 @@ class BarcodeController extends AbstractController
         $barcode->setFontSize(11);
         $code = $barcode->generate();
 
-        // file_put_contents('/var/www/gradution/public/uploads/barcode.png', $code);
-
-        // $bcode ='<img src="data:image/png;base64,'.$code.'" />';
-        // $output_file = "/var/www/gradution/public/uploads/haha.jpeg";
-
-        // $con = $this->base64_to_jpeg($bcode, $output_file);
-
-        //   echo '<img src="data:image/png;base64,'.$code.'" />';
-        //   die;
-        //  echo "<br>";
-        // $lastBarcode = $student->getFirstName().'<img src="data:image/png;base64,'.$code.'" />';
-        // $lastBarcode = $student->getFirstName().'<img src="data:image/png;base64,'.$code.'" />';
-
-
-        /* $type = pathinfo($path, PATHINFO_EXTENSION);
-        $data = file_get_contents($path);*/
-        // $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
 
         $input = 'data:image/png;base64,' . $code;
         $output = '/var/www/gradution/public/uploads/barcodes/barcode_' . $student->getId() . '.png';
         file_put_contents($output, file_get_contents($input));
-        // return new Response("donwloaded");
-        // die;
+      
 
         $barcode_file = '/var/www/gradution/public/uploads/barcodes/barcode_' . $student->getId() . '.png';
 
 
 
-        /*
-$pdf = new Fpdi();
-
-$pageCount = $pdf->setSourceFile('Fantastic-Speaker.pdf');
-$pageId = $pdf->importPage(1, PdfReader\PageBoundaries::MEDIA_BOX);
-
-$pdf->addPage();
-$pdf->useImportedPage($pageId, 10, 10, 90);
-
-$pdf->Output('I', 'generated.pdf');*/
-
-
+       
 
         // initiate FPDI
         $pdf = new Fpdi();
@@ -155,11 +126,8 @@ $pdf->Output('I', 'generated.pdf');*/
         // $pdf->Cell(15,15,'This is line number '.$i,1,1);
         $pdf->Cell(50, 10, $pdf->Image($barcode_file, $pdf->GetX(), $pdf->GetY(), $imsize), 0, 0, 'L', false);
 
-        // }
+       
 
-
-
-        // $pdf->Output("/var/www/gradution/public/uploads/cards/",'card_'.$student->getId().".pdf",true);  
         $pdf->Output();
     }
 

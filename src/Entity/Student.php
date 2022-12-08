@@ -35,32 +35,19 @@ class Student
     private $lastName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
      */
     private $sex;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer",nullable=true)
      */
     private $year;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255 ,nullable=true)
      */
     private $academicYear;
-
-   
-
-    /**
-     * @ORM\OneToMany(targetEntity=Card::class, mappedBy="student")
-     */
-    private $cards;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Department::class, inversedBy="students")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $department;
 
     
 
@@ -69,21 +56,34 @@ class Student
      */
     private $idNumber;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Enrollment::class, inversedBy="students")
-     */
-    private $enrollment;
+   
 
     /**
-     * @ORM\ManyToOne(targetEntity=ProgramLevel::class, inversedBy="students")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $programLevel;
+    private $photo;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Checkin::class, mappedBy="student")
+     */
+    private $checkins;
+
+    /**
+     * @ORM\OneToMany(targetEntity=IllegalChekinAttempt::class, mappedBy="student")
+     */
+    private $illegalChekinAttempts;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $barcode;
 
 
 
     public function __construct()
     {
-        $this->cards = new ArrayCollection();
+        $this->checkins = new ArrayCollection();
+        $this->illegalChekinAttempts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -163,50 +163,6 @@ class Student
         return $this;
     }
 
- 
-
-    /**
-     * @return Collection|Card[]
-     */
-    public function getCards(): Collection
-    {
-        return $this->cards;
-    }
-
-    public function addCard(Card $card): self
-    {
-        if (!$this->cards->contains($card)) {
-            $this->cards[] = $card;
-            $card->setStudent($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCard(Card $card): self
-    {
-        if ($this->cards->removeElement($card)) {
-            // set the owning side to null (unless already changed)
-            if ($card->getStudent() === $this) {
-                $card->setStudent(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getDepartment(): ?Department
-    {
-        return $this->department;
-    }
-
-    public function setDepartment(?Department $department): self
-    {
-        $this->department = $department;
-
-        return $this;
-    }
-
 
 
     public function getIdNumber(): ?string
@@ -221,26 +177,86 @@ class Student
         return $this;
     }
 
-    public function getEnrollment(): ?Enrollment
+    public function getPhoto(): ?string
     {
-        return $this->enrollment;
+        return $this->photo;
     }
 
-    public function setEnrollment(?Enrollment $enrollment): self
+    public function setPhoto(?string $photo): self
     {
-        $this->enrollment = $enrollment;
+        $this->photo = $photo;
 
         return $this;
     }
 
-    public function getProgramLevel(): ?ProgramLevel
+    /**
+     * @return Collection|Checkin[]
+     */
+    public function getCheckins(): Collection
     {
-        return $this->programLevel;
+        return $this->checkins;
     }
 
-    public function setProgramLevel(?ProgramLevel $programLevel): self
+    public function addCheckin(Checkin $checkin): self
     {
-        $this->programLevel = $programLevel;
+        if (!$this->checkins->contains($checkin)) {
+            $this->checkins[] = $checkin;
+            $checkin->setStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCheckin(Checkin $checkin): self
+    {
+        if ($this->checkins->removeElement($checkin)) {
+            // set the owning side to null (unless already changed)
+            if ($checkin->getStudent() === $this) {
+                $checkin->setStudent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|IllegalChekinAttempt[]
+     */
+    public function getIllegalChekinAttempts(): Collection
+    {
+        return $this->illegalChekinAttempts;
+    }
+
+    public function addIllegalChekinAttempt(IllegalChekinAttempt $illegalChekinAttempt): self
+    {
+        if (!$this->illegalChekinAttempts->contains($illegalChekinAttempt)) {
+            $this->illegalChekinAttempts[] = $illegalChekinAttempt;
+            $illegalChekinAttempt->setStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIllegalChekinAttempt(IllegalChekinAttempt $illegalChekinAttempt): self
+    {
+        if ($this->illegalChekinAttempts->removeElement($illegalChekinAttempt)) {
+            // set the owning side to null (unless already changed)
+            if ($illegalChekinAttempt->getStudent() === $this) {
+                $illegalChekinAttempt->setStudent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getBarcode(): ?string
+    {
+        return $this->barcode;
+    }
+
+    public function setBarcode(?string $barcode): self
+    {
+        $this->barcode = $barcode;
 
         return $this;
     }

@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\StaffDeletedCheckin;
+use App\Entity\Schedule;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method StaffDeletedCheckin|null find($id, $lockMode = null, $lockVersion = null)
- * @method StaffDeletedCheckin|null findOneBy(array $criteria, array $orderBy = null)
- * @method StaffDeletedCheckin[]    findAll()
- * @method StaffDeletedCheckin[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Schedule|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Schedule|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Schedule[]    findAll()
+ * @method Schedule[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class StaffDeletedCheckinRepository extends ServiceEntityRepository
+class ScheduleRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, StaffDeletedCheckin::class);
+        parent::__construct($registry, Schedule::class);
     }
 
     // /**
-    //  * @return StaffDeletedCheckin[] Returns an array of StaffDeletedCheckin objects
+    //  * @return Schedule[] Returns an array of Schedule objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class StaffDeletedCheckinRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?StaffDeletedCheckin
+    public function findOneBySomeField($value): ?Schedule
     {
         return $this->createQueryBuilder('s')
             ->andWhere('s.exampleField = :val')

@@ -2,27 +2,26 @@
 
 namespace App\Form;
 
-use App\Entity\Staff;
+use App\Entity\Schedule;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class StaffType extends AbstractType
+class ScheduleType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('title')
-            ->add('fullName')
-            
-            ->add('description')
+            ->add('date')
+            ->add('type')
+            ->add('status')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Staff::class,
+            'data_class' => Schedule::class,
         ]);
     }
 }

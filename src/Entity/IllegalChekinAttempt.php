@@ -17,11 +17,7 @@ class IllegalChekinAttempt
      */
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Card::class, inversedBy="illegalChekinAttempts")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $card;
+    
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="illegalChekinAttempts")
@@ -34,10 +30,7 @@ class IllegalChekinAttempt
      */
     private $checkinTime;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $photo;
+   
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -49,21 +42,20 @@ class IllegalChekinAttempt
      */
     private $barcode;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Schedule::class, inversedBy="illegalChekinAttempts")
+     */
+    private $schedule;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Student::class, inversedBy="illegalChekinAttempts")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $student;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getCard(): ?Card
-    {
-        return $this->card;
-    }
-
-    public function setCard(?Card $card): self
-    {
-        $this->card = $card;
-
-        return $this;
     }
 
     public function getScanner(): ?User
@@ -90,18 +82,6 @@ class IllegalChekinAttempt
         return $this;
     }
 
-    public function getPhoto(): ?string
-    {
-        return $this->photo;
-    }
-
-    public function setPhoto(?string $photo): self
-    {
-        $this->photo = $photo;
-
-        return $this;
-    }
-
     public function getReason(): ?string
     {
         return $this->reason;
@@ -122,6 +102,30 @@ class IllegalChekinAttempt
     public function setBarcode(?string $barcode): self
     {
         $this->barcode = $barcode;
+
+        return $this;
+    }
+
+    public function getSchedule(): ?Schedule
+    {
+        return $this->schedule;
+    }
+
+    public function setSchedule(?Schedule $schedule): self
+    {
+        $this->schedule = $schedule;
+
+        return $this;
+    }
+
+    public function getStudent(): ?Student
+    {
+        return $this->student;
+    }
+
+    public function setStudent(?Student $student): self
+    {
+        $this->student = $student;
 
         return $this;
     }

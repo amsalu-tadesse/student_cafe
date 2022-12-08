@@ -16,8 +16,11 @@ class StudentType extends AbstractType
             ->add('middleName')
             ->add('lastName')
             ->add('sex')
-            ->add('year')
-            ->add('academicYear')
+            ->add('id_number')
+            ->add('photo')
+            ->add('barcode')
+            // ->add('year')
+            // ->add('academicYear')
             // ->add('program')
         ;
     }

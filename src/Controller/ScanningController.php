@@ -3,10 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Checkin;
-use App\Entity\Card;
 use App\Entity\IllegalChekinAttempt;
-use App\Entity\StaffCard;
-use App\Entity\StaffCheckin;
+use App\Entity\Schedule;
+use App\Entity\Student;
 use App\Form\CollegeType;
 use App\Repository\CollegeRepository;
 use DateTime;
@@ -32,55 +31,95 @@ class ScanningController extends AbstractController
         $reason = null;
         $allowed = 0; //default nothing.
         $previousImage = null;
-        $fileName = uniqid() . '.png';
-        $savePhoto = true;
+        $photo = null;
+        $student = '';
+        $today = date('Y-m-d');
         $em = $this->getDoctrine()->getManager();
-        $card = $em->getRepository(Card::class)->findOneBy(['barcode' => $barcode]);
+        if($barcode)
+        {
+            $student = $em->getRepository(Student::class)->findOneBy(['barcode' => $barcode]);
+        }
+      
+        $schedule = $em->getRepository(Schedule::class)->findOneBy(['status' =>1,'date'=>$today]);//active
+        $all_todays_schedule = $em->getRepository(Schedule::class)->findBy(['date'=>$today]);//get the three schedules of the day.
+        $today_is_completed = false;
 
-        if ($card) {
-            $checkin = $em->getRepository(Checkin::class)->findOneBy(['card' => $card]);
+
+
+        if (!$schedule) {
+            if (sizeof($all_todays_schedule) > 0) {
+                $reason = "Schedule completed";
+                $allowed = 0;
+                $today_is_completed = true;
+                return $this->render('student/scanning.html.twig', [
+                    'allowed' => $allowed,
+                    'reason' => $reason,
+                    'fileName' => $photo,
+                    'previousImage' => $photo,
+                    'student' => $student,
+                    'all_todays_schedule' => $all_todays_schedule,
+                    'today_is_completed' => $today_is_completed,
+                ]);
+            }
+            else //there is no schedule created for today. create it now.
+            {
+                $breakfast = new Schedule();
+                $lunch = new Schedule();
+                $dinner = new Schedule();
+
+                $breakfast->setDate($today);
+                $breakfast->setType(1);
+                $breakfast->setStatus(1);
+
+                $lunch->setDate($today);
+                $lunch->setType(2);
+                $lunch->setStatus(0);
+
+                $dinner->setDate($today);
+                $dinner->setType(3);
+                $dinner->setStatus(0);
+
+                $em->persist($breakfast);
+                $em->persist($lunch);
+                $em->persist($dinner);
+
+                $em->flush();
+                return $this->redirectToRoute('scanning');
+            }
+        }
+
+
+
+
+
+        if ($barcode == "") {
+            $allowed = 0; //default.
+        }
+
+        //check if card is really available in the system.
+        elseif ($student) {
+            //check if this card has been used.
+            $checkin = $em->getRepository(Checkin::class)->findOneBy(['student' => $student, 'schedule'=>$schedule]);
+
+            $photo = $student->getPhoto();
+
             if ($checkin) {
-                $previousImage = $checkin->getPhoto();
+                //$previousImage = $checkin->getPhoto();
                 $reason = "ያገለገለ ካርድ | Used Card";
                 $allowed = 2; //deny
             } else {
                 //allow entry
-                $allowed = 1;
+                $allowed = 1; //success
                 $checkin =  new Checkin();
-                $checkin->setCard($card);
+                $checkin->setStudent($student);
                 $checkin->setCheckinTime(new DateTime());
                 $checkin->setScanner($this->getUser());
-                $checkin->setPhoto($fileName);
+                $checkin->setSchedule($schedule);
                 $em->persist($checkin);
             }
-        } elseif ($barcode == "") {
-
-            $allowed = 0; //default.
-            $savePhoto = false;
         } else {
-
-            $staffCard = $em->getRepository(StaffCard::class)->findOneBy(['barcode' => $barcode]);
-            if ($staffCard) {
-                $staffcheckin = $em->getRepository(StaffCheckin::class)->findOneBy(['staffCard' => $staffCard]);
-                if ($staffcheckin) {
-                    $previousImage = $staffcheckin->getPhoto();
-                    $reason = "ያገለገለ ካርድ | Used Card";
-                    $allowed = 2; //deny
-                } else {
-
-                    //allow staff entry
-                    $allowed = 1;
-                    $staffChecking =  new StaffCheckin();
-                    $staffChecking->setStaffCard($staffCard);
-                    $staffChecking->setCheckinTime(new DateTime());
-                    $staffChecking->setScanner($this->getUser());
-                    $staffChecking->setPhoto($fileName);
-                    $em->persist($staffChecking);
-                }
-            } else {
-                $reason = "የማይታውቅ ካርድ | Invalid Card";
-                $allowed = 2; //deny
-            }
+            $reason = "የማይታውቅ ካርድ | Invalid Card";
+            $allowed = 2; //deny
         }
 
         if ($allowed == 2) {
@@ -88,27 +127,16 @@ class ScanningController extends AbstractController
             $illegalLoginAttempt->setCheckinTime(new DateTime());
             $illegalLoginAttempt->setScanner($this->getUser());
             $illegalLoginAttempt->setReason($reason);
-            $illegalLoginAttempt->setPhoto($fileName);
+            $illegalLoginAttempt->setSchedule($schedule);
             $illegalLoginAttempt->setBarcode($barcode);
-            if ($card) {
-                $illegalLoginAttempt->setCard($card);
+            if ($student) {
+                $illegalLoginAttempt->setStudent($student);
             }
             $em->persist($illegalLoginAttempt);
         }
         $em->flush();
 
-        $img = $request->request->get("image");
-        if ($savePhoto && $img) {
-            $folderPath = $kernel->getProjectDir() . "/public/uploads/";
-            $image_parts = explode("base64,", $img);
-            // $image_type_aux = explode("image/", $image_parts[0]);
-            // $image_type = $image_type_aux[1];
-            if (sizeof($image_parts) > 1) {
-                $image_base64 = base64_decode($image_parts[1]);
-                $file = $folderPath . $fileName;
-                file_put_contents($file, $image_base64);
-            }
-        }
+
 
 
 
@@ -118,8 +146,12 @@ class ScanningController extends AbstractController
         return $this->render('student/scanning.html.twig', [
             'allowed' => $allowed,
             'reason' => $reason,
-            'fileName' => $fileName,
-            'previousImage' => $previousImage
+            'fileName' => $photo,
+            'previousImage' => $photo,
+            'student' => $student,
+            'all_todays_schedule' => $all_todays_schedule,
+            'today_is_completed' => $today_is_completed,
+
         ]);
     }
 }

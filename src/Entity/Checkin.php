@@ -17,11 +17,6 @@ class Checkin
      */
     private $id;
 
-    /**
-     * @ORM\OneToOne(targetEntity=Card::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $card;
 
     /**
      * @ORM\Column(type="datetime")
@@ -33,28 +28,19 @@ class Checkin
      */
     private $scanner;
 
+   
+
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\ManyToOne(targetEntity=Schedule::class, inversedBy="checkins")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $photo;
+    private $schedule;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getCard(): ?Card
-    {
-        return $this->card;
-    }
-
-    public function setCard(Card $card): self
-    {
-        $this->card = $card;
-
-        return $this;
-    }
-
+    /**
+     * @ORM\ManyToOne(targetEntity=Student::class, inversedBy="checkins")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $student;
 
     public function getCheckinTime(): ?\DateTimeInterface
     {
@@ -80,15 +66,30 @@ class Checkin
         return $this;
     }
 
-    public function getPhoto(): ?string
+ 
+
+    public function getSchedule(): ?Schedule
     {
-        return $this->photo;
+        return $this->schedule;
     }
 
-    public function setPhoto(?string $photo): self
+    public function setSchedule(?Schedule $schedule): self
     {
-        $this->photo = $photo;
+        $this->schedule = $schedule;
 
         return $this;
     }
+
+    public function getStudent(): ?Student
+    {
+        return $this->student;
+    }
+
+    public function setStudent(?Student $student): self
+    {
+        $this->student = $student;
+
+        return $this;
+    }
+
 }

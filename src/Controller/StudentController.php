@@ -28,26 +28,26 @@ class StudentController extends AbstractController
      */
     public function index(Request $request, StudentRepository $studentRepository,PaginatorInterface $paginator): Response
     {
+    $f=null;
+    $em =$this->getDoctrine()->getManager();
+    $reset = $request->query->get('reset');
+    $pg = $request->query->get('page');
+    $search = $request->query->get('search');
 
+    /* if($reset=="reset" && !$pg)
+     {
 
+       $request->getSession()->set('filter_student',$f);
+     }
+     else
+     {
+       $f = $request->getSession()->get('filter_student')?$request->getSession()->get('filter_student'):null;
+     }
+*/
         
 
-        $f=null;
-        $em =$this->getDoctrine()->getManager();
-        $reset = $request->query->get('reset');
-        $pg = $request->query->get('page');
 
-        if($reset=="reset" && !$pg)
-        {
-           
-          $request->getSession()->set('filter_student',$f);
-        }
-        else
-        {
-          $f = $request->getSession()->get('filter_student')?$request->getSession()->get('filter_student'):null;
-        }
-
-        $form=$this->createFormBuilder()
+      /*  $form=$this->createFormBuilder()
       
         ->add('Enrollment',EntityType::class, [
             'class' => Enrollment::class,
@@ -66,26 +66,26 @@ class StudentController extends AbstractController
             'required'=>false,
             'placeholder' => "",
             
-        ])
+        ])*/
    
-        ->add('Search',SubmitType::class)
-        // ->add('Reset',ResetType::class)
-        ->getForm(); 
+        //->add('Search',SubmitType::class)
+        //->add('Reset',ResetType::class)
+      //  ->getForm(); 
 
-        $form->handleRequest($request);
+       // $form->handleRequest($request);
 
 
         $queryBuilder = null;
         $students = null;
-        if($form->isSubmitted() && $form->isValid())
+       /* if($form->isSubmitted() && $form->isValid())
         {
             $f = $request->request->get('form');
             $request->getSession()->set('filter_student',$f);
             return $this->redirectToRoute("student_index");
   
-        }
+        }*/
 
-         $students =  $em->getRepository(Student::class)->findByFilters($f);
+         $students =  $em->getRepository(Student::class)->findStudent($search);
   
 
         $pageNumber = 5;
@@ -97,7 +97,7 @@ class StudentController extends AbstractController
         // dd($data);
         return $this->render('student/index.html.twig', [
             'students' => $data,
-            'filterform'=>$form->createView(),
+           // 'filterform'=>$form->createView(),
             'filterdata'=>$f
         ]);
 

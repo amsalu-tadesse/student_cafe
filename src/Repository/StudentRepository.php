@@ -19,38 +19,16 @@ class StudentRepository extends ServiceEntityRepository
         parent::__construct($registry, Student::class);
     }
 
-    public function findByFilters($f)
+    public function findStudent($search=null)
     {
-        $res= null; 
-        //    dd($f);
-        $res = $this->createQueryBuilder('s');
-        // $res = $res->join('s.profile','p');
-     if($f)
-     {
-        if($f['Enrollment']!="")
-        {
+        $qb=$this->createQueryBuilder('s');
+        if($search)
+            $qb->andWhere("s.idNumber  LIKE '%".$search."%' or s.firstName  LIKE '%".$search."%'");
+            return 
+            $qb->orderBy('s.id', 'ASC')
+            ->getQuery()
+     
             
-            $res = $res->andWhere('s.enrollment = :ptype')
-            ->setParameter('ptype', $f['Enrollment']);
-            
-        }
-        if($f['Department']!="")
-        {
-            $res = $res->andWhere('s.department = :dept')
-            ->setParameter('dept', $f['Department']);
-        }
-        if($f['ProgramLevel']!="")
-        {
-            $res = $res->andWhere('s.programLevel = :plevel')
-            ->setParameter('plevel', $f['ProgramLevel']);
-        }
-
-     }
-        
-     $res = $res
-     ->orderBy('s.id','desc')
-     ->getQuery()
- ;
- return $res;     
+        ;
     }
 }

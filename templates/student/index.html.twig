@@ -9,76 +9,30 @@
 
 
 
-{# {{ form_start(filterform, { 'attr': { 'role':'form', 'id':'filterform'} }) }}
-
+<hr>
 
 <div class="row mr-5 ml-3">
 
-<div class="col-3 form-group">
-	<b>Enrollment</b>
-	<div class="input-group">
-		<div class="input-group-prepend">
-
-		</div>
 
 
-         {% if filterdata.Enrollment is defined %}
-  {{ form_widget(filterform.Enrollment,{value : filterdata.Enrollment,'attr':{'class':'form-control select2bs4'}}) }}
-        {% else %}
-        {{ form_widget(filterform.Enrollment,{'attr':{'class':'form-control select2bs4'}}) }}
-         {% endif %}
-
-
-	</div>
+<div class="card ">
+<div class="card-header">
+    <div class="card-tools">
+    
+        <form class="form-inline ml-1" >
+            
+                <input class="form-control" autocomplete="off" name="search" type="search" placeholder="Search" aria-label="Search" style="margin-right: auto;">
+                    <button class=" input-group-text btn btn-navbar btn-success" type="submit">
+                         <i class="fa fa-search"></i>
+                    </button>
+        </form>
+    </div>
 </div>
 
 
 
-<div class="col-3 form-group">
-	<b>Department</b>
-	<div class="input-group">
-		<div class="input-group-prepend">
-
-		</div>
-          {% if filterdata.Department is defined %}
-        {{ form_widget(filterform.Department,{value : filterdata.Department, 'attr':{'class':'form-control select2bs4'}}) }}
-        {% else %}
-        {{ form_widget(filterform.Department,{'attr':{'class':'form-control select2bs4'}}) }}
-         {% endif %}
-	</div>
 </div>
 
-
-<div class="col-3 form-group">
-	<b>ProgramLevel</b>
-	<div class="input-group">
-		<div class="input-group-prepend">
-
-		</div>
-		   {% if filterdata.ProgramLevel is defined %}
-             {{ form_widget(filterform.ProgramLevel,{value : filterdata.ProgramLevel, 'attr':{'class':'form-control '}}) }}
-        {% else %}
-            {{ form_widget(filterform.ProgramLevel,{'attr':{'class':'form-control '}}) }}
-         {% endif %}
-	</div>
-</div>
-
-
-
-<div class="col-3 form-group">
-	<b>&nbsp;</b>
-	<div class="input-group">
-		<div class="input-group-prepend">
-
-		</div>
-		{{ form_widget(filterform.Search,{'attr':{'class':'form-control btn btn-success'}}) }}
-	</div>
-</div>
-
-
-</div>
-
-{{ form_end(filterform) }} #}
 
 
 
@@ -90,21 +44,21 @@
                 <th>MiddleName</th>
                 <th>LastName</th>
                 <th>Sex</th>
-                <th>Year</th>
-                <th>AcademicYear</th>
+                <th>ID Number</th>
+                <th>Barcode</th>
                 <th>actions</th>
             </tr>  
         </thead>
         <tbody>
         {% for student in students %}
             <tr>
-                <td>{{ student.id }}</td>
+                <td>{{ loop.index }}</td>
                 <td>{{ student.firstName }}</td>
                 <td>{{ student.middleName }}</td>
                 <td>{{ student.lastName }}</td>
                 <td>{{ student.sex }}</td>
-                <td>{{ student.year }}</td>
-                <td>{{ student.academicYear }}</td>
+                <td>{{ student.idNumber }}</td>
+                <td>{{ student.barcode }}</td>
                 <td>
                     <a href="{{ path('student_show', {'id': student.id}) }}" class="btn btn-info">show</a>
                     <a href="{{ path('student_edit', {'id': student.id}) }}" class="btn btn-warning">edit</a>

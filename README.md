@@ -9,7 +9,7 @@ This system supports comparision of only two interfaces at a time. (Control and 
 
 ## Steps of Installation
 
-- git clone https://github.com/AmsaluGit/abtest.git
+- git clone https://github.com/AmsaluGit/student_cafe.git
 - cd abtest
 - update .env according to your database credentials
 - composer install

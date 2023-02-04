@@ -4,7 +4,9 @@
  
 
 ## Student Cafe Web Application
-
+Student Cafe is a University cafeteria management system, which provides food three times a day. 
+The system has three schedules a day. Breakfast, Lunch and Dinner. 
+The system tells if Unknown ID is used and if a student attempts to use the card more than one time per schedule.
 
 ## Steps of Installation
 

@@ -1,7 +1,7 @@
 
 
 <img src="public/img/student_cafe.png" >
-<a href="public/img/Student-Cafe-Dining-Management-System-Demo.png"/>
+<a href="public/img/Student-Cafe-Dining-Management-System-Demo.mp4"/>
 
 
  

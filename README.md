@@ -21,7 +21,6 @@ It also has more functionalities.
 - go to http://127.0.0.1:8000 as shown in your terminal.
 
 ## How to use the system
-- on http://127.0.0.1:8000 click start to start the app.
 - Login with username = admin and password = 123456
 - Under 'student information' click on 'scanning'.
 - Open students_list.pdf file from the project root directory.

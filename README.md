@@ -21,7 +21,7 @@ It also has more functionalities.
 - go to http://127.0.0.1:8000 as shown in your terminal.
 
 ## How to use the system
-- Login with username = admin and password = 123456
+- Login with username = amtadesse and password = 123456
 - Under 'student information' click on 'scanning'.
 - Open students_list.pdf file from the project root directory.
 - From the file, copy barcode from the barcode column and paste on the text box of the system and hit enter.

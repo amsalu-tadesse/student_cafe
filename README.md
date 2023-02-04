@@ -1,6 +1,9 @@
 
 
 <img src="public/img/student_cafe.png" >
+<a href="public/img/Student-Cafe-Dining-Management-System-Demo.png"/>
+
+
  
 
 ## Student Cafe Web Application
@@ -27,3 +30,4 @@ It also has more functionalities.
 - From the file, copy barcode from the barcode column and paste on the text box of the system and hit enter.
 - You can try for other students as well.
 - Try for the same ID more than one time, or with invalid Id.
+- video https://www.loom.com/share/63c71cceaa4d490ebdc659f949afcf32

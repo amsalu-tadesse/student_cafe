@@ -1,22 +1,22 @@
 
 
-<img src="public/uploads/abtest.png" >
+<img src="public/img/student_cafe.png" >
  
 
-## A/B testing tools
-A/B testing, also known as split testing, refers to a randomized experimentation process wherein two or more versions of a variable (web page, page element, etc.) are shown to different segments of website visitors at the same time to determine which version leaves the maximum impact and drives business metrics.
-This system supports comparision of only two interfaces at a time. (Control and Variation)
+## Student Cafe Web Application
+Student Cafe is a University cafeteria management system, which provides foods three times a day. 
+The system has three schedules a day. Breakfast, Lunch and Dinner. 
+The system tells if Unknown ID is used and if a student attempts to use the card more than one time per schedule.
+It also has more functionalities. 
 
 ## Steps of Installation
 
-- git clone https://github.com/AmsaluGit/abtest.git
-- cd abtest
+- git clone https://github.com/AmsaluGit/student_cafe.git
+- cd student_cafe
 - update .env according to your database credentials
 - composer install
-- create database 'abtest' in your local machine.
-- import the abtest.sql into your database
-- npm install
-- npm run dev
+- create database 'student_cafe' in your local machine.
+- import the student_cafe.sql into your database
 - php artisan serve
 - got http://127.0.0.1:8000 as shown in your terminal.
 
